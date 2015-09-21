@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_payment_form_tree" model="ir.ui.view">
+            <field name="name">payment.form.line.tree</field>
+            <field name="model">payment.form</field>
+            <field name="arch" type="xml">
+                <tree string="Payment Authorisation Form">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="payment_date"/>
+                    <field name="vendor_company_id"/>
+                    <field name="purchase_id"/>
+                    <field name="payment_code"/>
+                    <field name="amount_to_pay"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_payment_form_form" model="ir.ui.view">
+            <field name="name">payment.form.form</field>
+            <field name="model">payment.form</field>
+            <field name="arch" type="xml">
+                <form string="Payment Authorisation Form">
+                    <!--header>
+                            <button name="invoice_open" states="draft,proforma2" string="Validate" class="oe_highlight" groups="account.group_account_invoice"/>
+                            <button name="invoice_cancel" states="draft,proforma2" string="Cancel Invoice" groups="account.group_account_invoice"/>
+                            <button name="action_cancel_draft" states="cancel" string="Set to Draft" type="object" groups="account.group_account_invoice"/>
+                            <field name="state" widget="statusbar" statusbar_visible="draft,open,paid" statusbar_colors='{"proforma":"blue","proforma2":"blue"}'/>
+                    </header-->
+                    <sheet string="Payment Authorisation Form">
+                        <div class="oe_title">
+                            <label string="Name" for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" class="oe_inline" colspan="4"/>
+                            </h1>
+                        </div>
+                        <group>
+                                <group>
+                                    <field name="date"/>
+                                    <field name="payment_date"/>
+                                    <field name="invoice_id"/>
+                                    <field name="cheque_number"/>
+                                </group>
+                                <group>
+                                    <field name="vendor_company_id"/>
+                                    <field name="purchase_id"/>
+                                    <field name="project_name"/>
+                                    <field name="payment_code"/>
+                                    <field name="payment_method"/>
+                                    <field name="amount_to_pay"/>
+                                </group>
+                                <group>
+                                    <field name="bank_id"/>
+                                    <field name="company_id"/>
+                                    <field name="currency_id"/>
+                                </group>
+                                <group>
+                                    <field name="balance"/>
+                                    <field name="deposit"/>
+                                    <field name="third_party_form"/>
+                                </group>
+                            <group cols="6" colspan="2">
+                                <field name="employee_approval_id"/>
+                                <field name="line_manager_approval_id"/>
+                                <field name="senior_manager_approval_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_payment_form_tree" model="ir.actions.act_window">
+            <field name="name">Payment Authorisation Form</field>
+            <field name="res_model">payment.form</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_payment_form_tree"/>
+        </record>
+
+        <menuitem id="menu_payment_form" name="Payment Authorisation" parent="account.menu_finance" sequence="9" groups="account.group_account_invoice"/>
+        <menuitem action="action_payment_form_tree" id="menu_action_payment_form_tree" parent="menu_payment_form"/>
+
+    </data>
+</openerp>

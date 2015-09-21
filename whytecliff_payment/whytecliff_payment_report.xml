@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report 
+            id="action_report_payment_form" 
+            model="payment.form" 
+            string="Payment Authorisation Form"
+            report_type="qweb-pdf"
+            name="whytecliff_payment.report_payment_form" 
+            file="whytecliff_payment.report_payment_form"
+        />
+    </data>
+</openerp>

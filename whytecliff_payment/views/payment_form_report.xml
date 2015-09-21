@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <template id="report_payment_form_document">
+        <t t-call="report.html_container">
+            <t t-name="external_layout_header" inherit_id="report.external_layout_header">
+                <div class="header">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 45px;"/>
+                        </div>
+                        <div class="col-xs-9 text-right" style="margin-top:10px;" t-field="o.company_id.rml_header1"/>
+                    </div>
+                    <div class="row zero_min_height">
+                        <div class="col-xs-12">
+                            <div style="border-bottom: 1px solid black;"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div t-field="o.company_id.partner_id" 
+                                t-field-options='{"widget": "contact", "fields": ["name","address"], "no_marker": true}'
+                                />
+                           <div style="border-bottom: 1px solid black;">
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-name="external_layout_footer" inherit_id="report.external_layout_footer">
+                <div class="footer">
+                    <div class="text-center">
+                        <ul t-if="not o.company_id.custom_footer" class="list-inline">
+                            <li t-if="o.company_id.phone">Phone: <span t-field="o.company_id.phone"/></li>
+            
+                            <li t-if="o.company_id.fax and o.company_id.phone">&amp;bull;</li>
+                            <li t-if="o.company_id.fax">Fax: <span t-field="o.company_id.fax"/></li>
+            
+                            <li t-if="o.company_id.email">&amp;bull;</li>
+                            <li t-if="o.company_id.email">Email: <span t-field="o.company_id.email"/></li>
+            
+                            <li t-if="o.company_id.website">&amp;bull;</li>
+                            <li t-if="o.company_id.website">Website: <span t-field="o.company_id.website"/></li>
+                        </ul>
+            
+                        <t t-if="o.company_id.custom_footer">
+                            <span t-raw="o.company_id.rml_footer"/>
+                        </t>
+            
+                        <ul class="list-inline">
+                            <li>Page:</li>
+                            <li><span class="page"/></li>
+                            <li>/</li>
+                            <li><span class="topage"/></li>
+                        </ul>
+                    </div>
+                </div>      
+            </t>
+            <t t-call="report.external_layout">
+                <div class="page cliffpayment">
+                    <div class="col-xs-6">
+                        <h1 style="margin:1em 0 1em 0;">Payment Form</h1>
+                    </div>
+                    <div class="col-xs-6">
+                    
+                    </div>
+                    <table width="100%"  class="table table-bordered" style="border:1px black solid; text-align:center">
+                      <tr>  
+                        <td width="20%">DATE</td>
+                        <td width="25%"><span t-field="o.date"></span></td>
+                        <td width="25%" class="allcaps" style="text-transform:uppercase;">PAYMENT DATE</td>
+                        <td width="30%"><span t-field="o.payment_date"></span></td>
+                      </tr>
+                      <tr>
+                        <td>VENDOR COMPANY NAME</td>
+                        <td colspan="3"><span t-field="o.vendor_company_id.name"></span></td>
+                      </tr>
+                      <tr>
+                        <td>PROJECT</td>
+                        <td colspan="3"><span t-field="o.project_name"></span></td>
+                      </tr>
+                      <tr>
+                        <td>INVOICE NUMBER</td>
+                        <td colspan="3"><span t-field="o.invoice_id.number"></span></td>
+                      </tr>
+                      <tr>
+                        <td>PURCHASE ORDER NUMBER</td>
+                        <td colspan="3"><span t-field="o.purchase_id.name"></span></td>
+                      </tr>
+                      <tr>
+                        <td>BALANCE/FULL PAYMENT</td>
+                        <td><input type="checkbox" checked="checked" t-if="o.deposit"/><input type="checkbox" value="" t-if="not o.deposit"/>
+                        Deposit <br /> <input type="checkbox" checked="checked" t-if="o.balance" /><input type="checkbox" value="" t-if="not o.balance" />
+                       Balance</td>
+                        <td class="allcaps" style="text-transform:uppercase;">PAYMENT CODE</td>
+                        <td><span t-field="o.payment_code"></span></td>
+                      </tr>
+                      <tr>
+                        <td>COMPANY NAME</td>
+                        <td colspan="3"><span t-field="o.company_id.name"></span></td>
+                      </tr>
+                      <tr>
+                        <td>AMOUNT TO BE PAID</td>
+                        <td colspan="3"><span t-field="o.amount_to_pay"  t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'></span></td>
+                      </tr>
+                    </table>
+                    <p></p>
+                    <table width="100%" class="table table-bordered" style="border:1px black solid;text-align:center">
+                      <tr>
+                        <td width="20%">BANK NAME</td>
+                        <td width="25%"><span t-field="o.bank_id.name"></span></td>
+                        <td width="25%" class="allcaps" style="text-transform:uppercase;">CHEQUE NUMBER</td>
+                        <td width="30%"><span t-field="o.cheque_number"></span></td>
+                      </tr>
+                    </table>
+                    <p></p>
+                    <table width="100%" class="table table-bordered" style="border:1px black solid; text-align:center">
+                      <tr>
+                        <td width="20%">PAYMENT METHOD</td>
+                        <td width="25%"><span t-field="o.payment_method.name"></span></td>
+                        <td width="25%" class="allcaps" style="text-transform:uppercase;">3rd PARTY PAYMENT FORM</td>
+                        <td><input type="checkbox" checked="checked" t-if="o.third_party_form" /><input type="checkbox" value="" t-if="not o.third_party_form" />
+                       Completed</td>
+                      </tr>
+                    </table>
+                    <p></p>
+                    <table width="100%" class="table table-bordered" style="border:1px black solid; text-align:center">
+                    <thead>
+                      <tr>
+                        <td>EMPLOYEE APPROVAL</td>
+                        <td>LINE MANAGER APPROVAL</td>
+                        <td>SENIOR MANAGER APPROVAL</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="sign">
+                        <p>APPROVED BY:</p>
+                        <span t-field="o.employee_approval_id.name" />
+                        </td>
+                        <td class="sign">
+                        <p>APPROVED BY:</p>
+                        <span t-field="o.line_manager_approval_id.name" />
+                        </td>
+                        <td class="sign">
+                        <p>APPROVED BY:</p>
+                        <span t-field="o.senior_manager_approval_id.name" />
+                        </td>
+                      </tr>
+                    </tbody>
+                    </table>
+                    </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_payment_form">
+        <t t-call="report.html_container">
+            <t t-foreach="doc_ids" t-as="doc_id">
+                <t t-raw="translate_doc(doc_id, doc_model, 'employee_approval_id.lang', 'whytecliff_payment.report_payment_form_document')"/>
+            </t>
+        </t>
+    </template>
+</data> 
+</openerp>

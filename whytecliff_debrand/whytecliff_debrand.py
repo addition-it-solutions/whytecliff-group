@@ -89,8 +89,10 @@ class whytecliff_debrand(models.Model):
             })
 
         footer = tools.append_content_to_html(footer, signature_company, plaintext=False, container_tag='div')
+        
+        res = super(whytecliff_debrand,self).get_signature_footer(user_id)
 
-        return footer
+        return res
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

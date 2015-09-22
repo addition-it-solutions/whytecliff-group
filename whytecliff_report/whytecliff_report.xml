@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <report 
+            id="action_report_profit_loss" 
+            model="report.profit.loss" 
+            string="Profit and Loss"
+            report_type="qweb-pdf"
+            name="whytecliff_report.report_profitloss" 
+            file="whytecliff_report.report_profitloss"
+            menu="False"
+            auto="False"
+        />
+    </data>
+</openerp>

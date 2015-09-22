@@ -56,6 +56,9 @@
                                         <span t-att-style="style" t-esc="formatLang(col_data)"/>
                                     </td>
                                     <td t-if="a.get('account_id')" class="text-right" style="white-space: nowrap;">
+                                        <span t-att-style="style" t-esc="formatLang(get_total_balance(a.get('account_id'),data))"/>
+                                    </td>
+                                    <td t-if="not a.get('account_id')" class="text-right" style="white-space: nowrap;">
                                         <span t-att-style="style" t-esc="formatLang(a.get('balance'))"/>
                                     </td>
                                 </t>

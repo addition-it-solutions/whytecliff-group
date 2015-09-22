@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+    # -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -44,6 +44,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
             'get_target_move': self._get_target_move,
             'get_columns': self._get_columns,
             'get_columns_data': self._get_columns_data,
+            'get_total_balance': self._get_total_balance,
         })
         self.context = context
 
@@ -76,8 +77,10 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
         if context.get('target_move') == 'posted':
             move_state = ['posted','']
 
-        if account_id:
-            for period in periods:
+        
+        for period in periods:
+            sum_balance = ''
+            if account_id:
                 context.update({'date_from': period.date_start, 'date_to': period.date_stop})
                 query = obj_move._query_get(self.cr, self.uid, obj='l', context=context)
                 self.cr.execute('SELECT (sum(debit) - sum(credit)) as tot_balance \
@@ -88,8 +91,15 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
                         AND '+ query +' '
                         ,(account_id, tuple(move_state)))
                 sum_balance = self.cr.fetchone()[0] or 0.0
-                result.append(sum_balance)
+            result.append(sum_balance)
         return result
+
+    def _get_total_balance(self, account_id, data):
+        balance = 0.0
+        result = self._get_columns_data(account_id, data)
+        for bal in result:
+            balance += bal
+        return balance
 
     def get_lines(self, data):
         lines = []
@@ -122,7 +132,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
                         continue
                     vals = {
                         'name': account.code + ' ' + account.name,
-                        'balance':  account.balance != 0 and account.balance * report.sign or account.balance,
+#                         'balance':  account.balance != 0 and account.balance * report.sign or account.balance,
                         'type': 'account',
                         'level': report.display_detail == 'detail_with_hierarchy' and min(account.level + 1,6) or 6, #account.level + 1
                         'account_type': account.type,

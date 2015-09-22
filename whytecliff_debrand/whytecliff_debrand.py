@@ -18,10 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import lxml
-
-from openerp import models, fields, api, _
-from openerp import tools, SUPERUSER_ID
+from openerp import models, api, _
 
 class whytecliff_debrand(models.Model):
     _inherit = "mail.notification"

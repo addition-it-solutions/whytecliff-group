@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Copyright (C) 2015-2016 Playerlayer HKG.
+#    Copyright (C) 2015-2016 Whytecliff Group Pvt. Ltd.
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,10 +21,10 @@
 {
     'name': 'Debranding',
     'version': '1.0',
-    'author': 'Playerlayer HKG.',
+    'author': 'Whytecliff Group Pvt. Ltd.',
     'category': 'Social Network',
     'summary': 'Debranding of Odoo',
-    'website': 'http://www.playerlayer.com.hk',
+    'website': 'https://www.whytecliffgroup.com',
     'description': """
     
 * Removed all the "powered by Odoo', "sent by Odoo"

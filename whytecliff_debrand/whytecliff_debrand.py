@@ -18,10 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+import lxml
+
 from openerp import models, fields, api, _
 from openerp import tools, SUPERUSER_ID
-
-
 
 class whytecliff_debrand(models.Model):
     _inherit = "mail.notification"
@@ -30,61 +30,29 @@ class whytecliff_debrand(models.Model):
     @api.model
     def get_signature_footer(self, user_id, res_model=None, res_id=None, context=None, user_signature=True):
         
-        res = super(whytecliff_debrand,self).get_signature_footer(user_id)
-        footer = ""
+        footer = super(whytecliff_debrand,self).get_signature_footer(user_id)
+        footer = str(footer)
+        modify_sign = new_sign = footer[footer.find('using'):]
         user = self.env['res.users'].browse([user_id])[0]
-        
-        if user.signature:
-            signature = user.signature
-        else:
-            signature = "--<br />%s" % user.name
-        footer = tools.append_content_to_html(footer, signature, plaintext=False)
-
-        sent_by = _('Sent by %(company)s using %(odoo)s')
          
         company_name = user.company_id.name
          
         if company_name == 'Vytal Support (Hong Kong) Ltd':
-            signature_company = '<br /><small>%s</small>' % (sent_by % {
-                'company': company_name,
-                'odoo': "<a style='color:inherit' href='http://managerhkg.vytalsupport.com/'>Vytal Support (Hong Kong) Ltd</a>"
-            })
+            new_sign = "using <a style='color:inherit' href='http://managerhkg.vytalsupport.com/'>Vytal Support (Hong Kong) Ltd</a></small>\n</span>"
         elif company_name == 'Cliff Premiums Ltd':
-            signature_company = '<br /><small>%s</small>' % (sent_by % {
-                'company': company_name,
-                'odoo': "<a style='color:inherit' href='http://cliffpremiums.com/'>Cliff Premiums Ltd</a>"
-            })
+            new_sign = "using <a style='color:inherit' href='http://cliffpremiums.com/'>Cliff Premiums Ltd</a></small>\n</span>"
         elif company_name == 'Whytecliff Group':
-            signature_company = '<br /><small>%s</small>' % (sent_by % {
-                'company': company_name,
-                'odoo': "<a style='color:inherit' href='http://manager.whytecliff.com/'>Whytecliff Group</a>"
-            })
+            new_sign = "using <a style='color:inherit' href='http://manager.whytecliff.com/'>Whytecliff Group</a></small>\n</span>"
         elif company_name == 'Whytecliff Consultants Ltd':
-            signature_company = '<br /><small>%s</small>' % (sent_by % {
-                'company': company_name,
-                'odoo': "<a style='color:inherit' href='http://manager.whytecliffconsultants.com/'>Whytecliff Consultants Ltd</a>"
-            })
+            new_sign = "using <a style='color:inherit' href='http://manager.whytecliffconsultants.com/'>Whytecliff Consultants Ltd</a></small>\n</span>"
         elif company_name == 'Vytal Support (Thailand) Co Ltd':
-            signature_company = '<br /><small>%s</small>' % (sent_by % {
-                'company': company_name,
-                'odoo': "<a style='color:inherit' href='http://manager.vytalsupport.com/'>Vytal Support (Thailand) Co Ltd</a>"
-            })
+            new_sign = "using <a style='color:inherit' href='http://manager.vytalsupport.com/'>Vytal Support (Thailand) Co Ltd</a></small>\n</span>"
         elif company_name == 'Playerlayer HKG':
-            signature_company = '<br /><small>%s</small>' % (sent_by % {
-                'company': company_name,
-                'odoo': "<a style='color:inherit' href='https://manager.playerlayer.com.hk/'>Playerlayer HKG</a>"
-            })
-        else:
-            signature_company = '<br /><small>%s</small>' % (sent_by % {
-                'company': company_name,
-                'odoo': "<a style='color:inherit' href='http://www.odoo.com/'>Odoo</a>"
-            })
+            new_sign = "using <a style='color:inherit' href='https://manager.playerlayer.com.hk/'>Playerlayer HKG</a></small>\n</span>"
+
+        footer = footer.replace(modify_sign,new_sign)
         
-        
-        footer = tools.append_content_to_html(footer, signature_company, plaintext=False, container_tag='div')
-        res = footer 
-        
-        return res
+        return footer
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

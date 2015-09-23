@@ -38,7 +38,7 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th t-foreach="get_columns(data)" t-as="col_label"><span t-field="col_label.name"/></th>
+                                <th class="text-right" t-foreach="get_columns(data)" t-as="col_label"><span t-field="col_label.name"/></th>
                                 <th class="text-right">Balance</th>
                             </tr>
                         </thead>
@@ -52,15 +52,15 @@
                                         <span style="color: white;" t-esc="'..' * a.get('level', 0)"/>
                                         <span t-att-style="style" t-esc="a.get('name')"/>
                                     </td>
-                                    <td t-foreach="get_columns_data(a.get('account_id'),data)" t-as="col_data">
+                                    <td class="text-right" t-foreach="get_columns_data(a.get('account_id'),data)" t-as="col_data">
                                         <span t-att-style="style" t-esc="formatLang(col_data)"/>
                                     </td>
                                     <td t-if="a.get('account_id')" class="text-right" style="white-space: nowrap;">
                                         <span t-att-style="style" t-esc="formatLang(get_total_balance(a.get('account_id'),data))"/>
                                     </td>
-                                    <td t-if="not a.get('account_id')" class="text-right" style="white-space: nowrap;">
+                                    <!--td t-if="a.get('account_id') and a.get('level') == 1" class="text-right" style="white-space: nowrap;">
                                         <span t-att-style="style" t-esc="formatLang(a.get('balance'))"/>
-                                    </td>
+                                    </td-->
                                 </t>
                             </tr>
                         </tbody>

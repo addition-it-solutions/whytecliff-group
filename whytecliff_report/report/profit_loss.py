@@ -50,6 +50,12 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
 
     def set_context(self, objects, data, ids, report_type=None):
         new_ids = self.pool.get('account.account').search(self.cr, self.uid, [('parent_id', '=', False)])
+        ctx = self.context.copy()
+        ctx['fiscalyear'] = data['form']['fiscalyear_id']
+        if data['form']['filter'] == 'filter_period':
+            ctx['period_from'] = data['form']['period_from']
+            ctx['period_to'] = data['form']['period_to']
+        self.context.update(ctx)
         self.context['landscape'] = True
         if (data['model'] == 'ir.ui.menu'):
             objects = self.pool.get('account.account').browse(self.cr, self.uid, new_ids)
@@ -96,6 +102,10 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
 
     def _get_total_balance(self, account_id, data):
         balance = 0.0
+        account_obj = self.pool.get('account.account')
+        account = account_obj.browse(self.cr, self.uid, account_id, context=self.context)
+        if account.level == 1:
+            return account.balance
         result = self._get_columns_data(account_id, data)
         for bal in result:
             balance += bal
@@ -108,7 +118,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
         for report in self.pool.get('account.financial.report').browse(self.cr, self.uid, ids2, context=self.context):
             vals = {
                 'name': report.name,
-                'balance': report.balance * report.sign or 0.0,
+                'balance': '',
                 'type': 'report',
                 'level': bool(report.style_overwrite) and report.style_overwrite or report.level,
                 'account_type': report.type =='sum' and 'view' or False, #used to underline the financial report balances
@@ -132,7 +142,6 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
                         continue
                     vals = {
                         'name': account.code + ' ' + account.name,
-#                         'balance':  account.balance != 0 and account.balance * report.sign or account.balance,
                         'type': 'account',
                         'level': report.display_detail == 'detail_with_hierarchy' and min(account.level + 1,6) or 6, #account.level + 1
                         'account_type': account.type,

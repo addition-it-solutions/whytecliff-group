@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record id="playerlayer_sale_order_view_form" model="ir.ui.view">
+            <field name="name">playerlayer.sale.order.view</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/header/button[@name='action_button_confirm']" position="replace">
+                    <button name="action_button_confirm" states="draft" string="Approve" class="oe_highlight" type="object" groups="base.group_user"/>
+                    
+                </xpath>
+                <xpath expr="//form/header/button[@name='action_button_confirm']" position="after">
+                    <button name="action_button_confirm_sale" states="approval2" string="Confirm Sale" class="oe_highlight" type="object" groups="base.group_user"/>
+                </xpath>
+                <xpath expr="//form/header/field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,approval1,approval2,progress,done" statusbar_colors='{"invoice_except":"red","waiting_date":"blue"}'/>
+                </xpath>
+                
+            </field>
+        </record>
+
+    </data>
+</openerp>

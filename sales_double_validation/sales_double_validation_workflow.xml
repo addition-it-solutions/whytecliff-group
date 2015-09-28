@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="act_double_wait" model="workflow.activity">
+            <field name="wkf_id" ref="sale.wkf_sale"/>
+            <field name="name">WaitForSchoolApproval</field>
+            <field name="kind">dummy</field>
+        </record>
+
+        <record id="act_double_check" model="workflow.activity">
+            <field name="wkf_id" ref="sale.wkf_sale"/>
+            <field name="name">WaitForManagerApproval</field>
+            <field name="kind">dummy</field>
+        </record>
+
+        <record id="trans_confirm_approval1" model="workflow.transition">
+            <field name="act_from" ref="sale.act_confirmed"/>
+            <field name="act_to" ref="act_double_wait"/>
+        </record>
+        
+        <record id="trans_approve1_approve2" model="workflow.transition">
+            <field name="act_from" ref="act_double_wait"/>
+            <field name="act_to" ref="act_double_check"/>
+        </record>
+
+        <record id="trans_approve2_route" model="workflow.transition">
+            <field name="act_from" ref="act_double_check"/>
+            <field name="act_to" ref="sale.act_router"/>
+        </record>
+
+    </data>
+</openerp>

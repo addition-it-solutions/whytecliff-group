@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report_standingdata">
+    <t t-call="report.html_container">
+        <t t-set="data_report_margin_top" t-value="12"/>
+        <t t-set="data_report_header_spacing" t-value="10"/>
+        <t t-set="data_report_dpi" t-value="110"/>
+
+        <t t-call="report.internal_layout">
+            <div class="page">
+                <h2><span t-esc="res_company.name"/>: Standing Data</h2>
+
+                <table class="table table-condensed">
+                    <thead>
+                        <tr class="text-center">
+                            <th>Asset Category</th>
+                            <th>Computation Method</th>
+                            <th>Time Method</th>
+                            <th># Depreciations</th>
+                            <th>Period Length</th>
+                            <th>Protata Temporis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="get_asset_categories()" t-as="cat">
+                            <tr>
+                                <td><span t-esc="cat['name']"/></td>
+                                <td><span t-esc="cat['method']"/></td>
+                                <td><span t-esc="cat['method_time']"/></td>
+                                <td><span t-esc="cat['method_number']"/></td>
+                                <td><span t-esc="cat['method_period']"/></td>
+                                <td><input type="checkbox" checked="checked" t-if="cat['prorata']"/>
+                                    <input type="checkbox" value="" t-if="not cat['prorata']"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

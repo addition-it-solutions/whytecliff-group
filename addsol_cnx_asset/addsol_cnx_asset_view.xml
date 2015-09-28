@@ -1,0 +1,22 @@
+<openerp>
+    <data>
+
+        <!--
+            Assets
+         -->
+    
+        <record model="ir.ui.view" id="view_addsol_account_asset_asset_form">
+            <field name="name">addsol.account.asset.asset.form</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
+            <field name="arch" type="xml">
+                <field name="code" position="after">
+                    <field name="serial_number"/>
+                    <field name="manufacturer"/>
+                    <field name="location"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

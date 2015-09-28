@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="asset_common_report_view" model="ir.ui.view">
+            <field name="name">FAR Common Report</field>
+            <field name="model">asset.far.report.common</field>
+            <field name="arch" type="xml">
+            <form string="FAR Report">
+                <separator string="FAR Report"/>
+                <group>
+                    <field name="fiscalyear_id" on_change="onchange_fiscalyear(fiscalyear_id)"/>
+                </group>
+                <group string="Periods">
+                   <field name="period_from"/>
+                   <field name="period_to"/>
+                </group>
+                <footer>
+                    <button name="check_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>
+                    or 
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+
+        <record id="action_asset_far_common_menu" model="ir.actions.act_window">
+            <field name="name">FAR Common Report</field>
+            <field name="res_model">asset.far.report.common</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="asset_common_report_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

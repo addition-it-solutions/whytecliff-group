@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="asset_depn_schedule_report_view" model="ir.ui.view">
+            <field name="name">Depreciation Schedule Report</field>
+            <field name="model">asset.depn.schedule.report</field>
+            <field name="inherit_id" ref="asset_common_report_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/separator" position="attributes">
+                    <attribute name="string">Depreciation Schedule</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_asset_depn_schedule_menu" model="ir.actions.act_window">
+            <field name="name">Depreciation Schedule</field>
+            <field name="res_model">asset.depn.schedule.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="asset_depn_schedule_report_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_depn_schedule_report" parent="menu_asset_reporting" action="action_asset_depn_schedule_menu"/>
+
+    </data>
+</openerp>

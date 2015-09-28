@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="asset_disposals_report_view" model="ir.ui.view">
+            <field name="name">FAR disposals Report</field>
+            <field name="model">asset.far.disposals.report</field>
+            <field name="inherit_id" ref="asset_common_report_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/separator" position="attributes">
+                    <attribute name="string">FAR Disposals</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_asset_far_disposals_menu" model="ir.actions.act_window">
+            <field name="name">Disposals</field>
+            <field name="res_model">asset.far.disposals.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="asset_disposals_report_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_far_disposals_report" parent="menu_asset_reporting" action="action_asset_far_disposals_menu"/>
+
+    </data>
+</openerp>

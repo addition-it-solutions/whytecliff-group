@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report_depn_schedule">
+    <t t-call="report.html_container">
+        <t t-set="data_report_margin_top" t-value="12"/>
+        <t t-set="data_report_header_spacing" t-value="10"/>
+        <t t-set="data_report_dpi" t-value="110"/>
+
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.internal_layout">
+                <div class="page">
+                    <h2><span t-esc="res_company.name"/>: Depreciation Schedule</h2>
+
+                    <div class="row mt32">
+                        <div class="col-xs-3">
+                            <strong>Fiscal Year:</strong>
+                            <p t-esc="get_fiscalyear(data)"/>
+                        </div>
+                        <div class="col-xs-3">
+                            <strong>Asset Category:</strong>
+                            <p t-esc="o.name"/>
+                        </div>
+                        <div class="col-xs-3">
+                            <strong>Periods :</strong>
+                            <p>
+                                <span t-esc="get_start_period(data)"/> - <span t-esc="get_end_period(data)"/>
+                            </p>
+                        </div>
+                    </div>
+
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Asset Name</th>
+                                <th>Asset Location</th>
+                                <th class="text-right">Gross Value</th>
+                                <th class="text-right">Current Depreciation</th>
+                                <th class="text-right">Amount Depreciated</th>
+                                <th class="text-right">Next Depreciation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="font-weight: bold;">
+                                <td></td>
+                                <td class="text-right"> Total: </td>
+                                <td class="text-right">
+                                    <span t-esc="formatLang(sum_assets(o), digits=get_digits(dp='Account'))"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="formatLang(total_amounts(o,data,'current_depreciation'), digits=get_digits(dp='Account'))"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="formatLang(total_amounts(o,data,'amount_already_depreciated'), digits=get_digits(dp='Account'))"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="formatLang(total_amounts(o,data,'next_period_depreciation'), digits=get_digits(dp='Account'))"/>
+                                </td>
+                            </tr>
+                            <t t-foreach="get_assets(o,data)" t-as="asset">
+                                <tr>
+                                    <td><span t-esc="asset['name']"/></td>
+                                    <td><span t-esc="asset['location']"/></td>
+                                    <td class="text-right"><span t-esc="formatLang(asset['purchase_value'],digits=get_digits(dp='Account'))"/></td>
+                                    <td class="text-right">
+                                        <span t-esc="formatLang(get_amounts(asset, 'current_depreciation'),digits=get_digits(dp='Account'))"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="formatLang(get_amounts(asset, 'amount_already_depreciated'), digits=get_digits(dp='Account'))"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="formatLang(get_amounts(asset, 'next_period_depreciation'), digits=get_digits(dp='Account'))"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

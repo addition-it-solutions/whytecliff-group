@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+
+        <record model="ir.cron" id="automatic_backup_databases">
+           <field name="name">Create Journal Entries for Assets</field>
+           <field name="interval_number">1</field>
+           <field name="interval_type">months</field>
+           <field name="numbercall">-1</field>
+           <field name="model" eval="'account.asset.asset'"/>
+           <field name="function" eval="'automatic_journal_entries'"/>
+           <field name="args" eval="'()'"/>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <report 
+            id="action_report_far_additions" 
+            model="report.far.additions" 
+            string="FAR Additions"
+            report_type="qweb-pdf"
+            name="addsol_cnx_asset.report_faradditions" 
+            file="addsol_cnx_asset.report_faradditions"
+            menu="False"
+            auto="False"
+        />
+
+        <report 
+            id="action_report_far_disposals" 
+            model="report.far.disposals" 
+            string="FAR Disposals"
+            report_type="qweb-pdf"
+            name="addsol_cnx_asset.report_fardisposals" 
+            file="addsol_cnx_asset.report_fardisposals"
+            menu="False"
+            auto="False"
+        />
+
+        <report 
+            id="action_report_depn_schedule" 
+            model="report.depn.schedule" 
+            string="Depreciation Schedule"
+            report_type="qweb-pdf"
+            name="addsol_cnx_asset.report_depn_schedule" 
+            file="addsol_cnx_asset.report_depn_schedule"
+            menu="False"
+            auto="False"
+        />
+
+        <report 
+            id="action_report_standing_data" 
+            model="report.standing.data" 
+            string="Standing Data"
+            report_type="qweb-pdf"
+            name="addsol_cnx_asset.report_standingdata" 
+            file="addsol_cnx_asset.report_standingdata"
+            menu="False"
+            auto="False"
+        />
+
+    </data>
+</openerp>

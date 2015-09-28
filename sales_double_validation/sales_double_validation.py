@@ -41,16 +41,14 @@ class playerlayer_sale_order(models.Model):
              in the invoice validation (Invoice Exception) or in the picking list process (Shipping Exception).\nThe 'Waiting Schedule' status is set when the invoice is confirmed\
               but waiting for the scheduler to run on the order date.", select=True)
               
-    @api.v7
-    def action_button_confirm(self, cr, uid, ids, context=None):
-        #print 'ids-------->',ids
-        #print 'context-------->',context
-        res = super(playerlayer_sale_order,self).action_button_confirm(cr, uid, ids, context=context)
+    @api.multi
+    def action_button_confirm(self):
+        #print 'ids-------->',self.ids
+        res = super(playerlayer_sale_order,self).action_button_confirm()
         #print 'res-------->',res
-        self.write(cr, uid, ids, {'state':'approval2'})
-        return True
+        self.write({'state':'approval2'})
+        return res
     
-    @api.v7
-    def action_button_confirm_sale(self,cr, uid, ids, context=None):
-        self.write(cr, uid, ids, {'state':'manual'})
-        return True
+    @api.multi
+    def action_button_confirm_sale(self):
+        return self.write({'state':'manual'})

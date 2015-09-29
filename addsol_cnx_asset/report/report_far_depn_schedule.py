@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from datetime import datetime
 import time
 
 from openerp.osv import osv
@@ -50,7 +49,7 @@ class report_depreciation_schedule(report_sxw.rml_parse, report_far_common):
             'get_start_period': self.get_start_period,
             'get_end_period': self.get_end_period,
             'get_assets': self._get_assets,
-            'sum_assets': self._sum_assets,
+            'total_gross_amount': self._total_gross_amount,
             'get_depreciations': self._get_depreciations,
             'get_amounts': self._get_amounts,
             'total_amounts': self._total_amounts,
@@ -69,14 +68,6 @@ class report_depreciation_schedule(report_sxw.rml_parse, report_far_common):
             res.append(asset)
         return res
 
-    def _sum_assets(self, category):
-        addition = 0.0
-        data = {'form': self.context}
-        assets = self._get_assets(category, data)
-        for asset in assets:
-            addition += asset.purchase_value
-        return addition
-
     def _get_depreciations(self, asset):
         depn_obj = self.pool.get('account.asset.depreciation.line')
         period_obj = self.pool.get('account.period')
@@ -92,13 +83,10 @@ class report_depreciation_schedule(report_sxw.rml_parse, report_far_common):
         if period_from and period_to:
             start_date = period_obj.browse(cr, uid, period_from).date_start
             end_date = period_obj.browse(cr, uid, period_to).date_stop
-            dt1 = datetime.strptime(start_date, '%Y-%m-%d')
-            dt2 = datetime.strptime(end_date, '%Y-%m-%d')
-        self.total_months = ((dt2-dt1).days) / 30
         domain = [('depreciation_date','>=',start_date), 
                   ('depreciation_date','<=',end_date),
-                  ('asset_id','=',asset.id),
-                  ('move_check','=',True)]
+                  ('move_check','=',True),
+                  ('asset_id','=',asset.id)]
         depn_ids = depn_obj.search(cr, uid, domain)
         for depn in depn_obj.browse(cr, uid, depn_ids):
             res.append(depn)
@@ -109,13 +97,11 @@ class report_depreciation_schedule(report_sxw.rml_parse, report_far_common):
         depreciations = self._get_depreciations(asset)
         for depn in depreciations:
             if field == 'amount_already_depreciated':
-                if self.total_months == len(depreciations):
-                    amount_value = depn.depreciated_value + depn.amount
+                amount_value = depn.depreciated_value + depn.amount
             elif field == 'current_depreciation':
                 amount_value += depn.amount
             elif field == 'next_period_depreciation':
-                if self.total_months == len(depreciations):
-                    amount_value = depn.remaining_value
+                amount_value = depn.remaining_value
         return amount_value
     
     def _total_amounts(self, category, data, field=''):
@@ -124,6 +110,15 @@ class report_depreciation_schedule(report_sxw.rml_parse, report_far_common):
         for asset in assets:
             total_depn += self._get_amounts(asset, field)
         return total_depn
+    
+    def _total_gross_amount(self, category, data, asset=None):
+        total_gross_amount = 0.0
+        for field in ['amount_already_depreciated','current_depreciation','next_period_depreciation']:
+            if not asset:
+                total_gross_amount += self._total_amounts(category, data, field)
+            else:
+                total_gross_amount += self._get_amounts(asset, field)
+        return total_gross_amount
 
 class report_depn_schedule(osv.AbstractModel):
     _name = 'report.addsol_cnx_asset.report_depn_schedule'

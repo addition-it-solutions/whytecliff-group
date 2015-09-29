@@ -43,12 +43,13 @@ class playerlayer_sale_order(models.Model):
               
     @api.multi
     def action_button_confirm(self):
-        #print 'ids-------->',self.ids
+        print 'ids-------->',self.ids
         res = super(playerlayer_sale_order,self).action_button_confirm()
-        #print 'res-------->',res
+        print 'res-------->',res
         self.write({'state':'approval2'})
         return res
     
     @api.multi
     def action_button_confirm_sale(self):
-        return self.write({'state':'manual'})
+        self.write({'state':'manual'})
+        return True

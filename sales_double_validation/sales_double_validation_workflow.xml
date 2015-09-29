@@ -2,31 +2,48 @@
 <openerp>
     <data>
 
-        <record id="act_double_wait" model="workflow.activity">
+        <record id="act_approve1" model="workflow.activity">
             <field name="wkf_id" ref="sale.wkf_sale"/>
-            <field name="name">WaitForSchoolApproval</field>
-            <field name="kind">dummy</field>
+            <field name="name">approve1</field>
+            <field name="kind">function</field>
+            <field name="action">action_button_confirm()</field>
         </record>
 
-        <record id="act_double_check" model="workflow.activity">
+        <record id="act_approve2" model="workflow.activity">
             <field name="wkf_id" ref="sale.wkf_sale"/>
-            <field name="name">WaitForManagerApproval</field>
-            <field name="kind">dummy</field>
+            <field name="name">approve2</field>
+            <field name="kind">function</field>
+            <field name="action">action_button_confirm_sale()</field>
         </record>
 
-        <record id="trans_confirm_approval1" model="workflow.transition">
-            <field name="act_from" ref="sale.act_confirmed"/>
-            <field name="act_to" ref="act_double_wait"/>
+        <record id="sale.trans_draft_sent" model="workflow.transition">
+            <field name="act_from" ref="sale.act_draft"/>
+            <field name="act_to" ref="sale.act_sent"/>
+            <field name="signal">quotation_sent</field>
+        </record>
+
+        <record id="trans_draft_to_approve1" model="workflow.transition">
+            <field name="act_from" ref="sale.act_draft"/>
+            <field name="act_to" ref="act_approve1"/>
+            <field name="signal">order_approval1</field>
+        </record>
+        
+        <record id="sale.trans_sent_router" model="workflow.transition">
+            <field name="act_from" ref="sale.act_sent"/>
+            <field name="act_to" ref="act_approve1"/>
+            <field name="signal">order_approval1</field>
         </record>
         
         <record id="trans_approve1_approve2" model="workflow.transition">
-            <field name="act_from" ref="act_double_wait"/>
-            <field name="act_to" ref="act_double_check"/>
+            <field name="act_from" ref="act_approve1"/>
+            <field name="act_to" ref="act_approve2"/>
+            <field name="signal">order_approval2</field>
         </record>
 
-        <record id="trans_approve2_route" model="workflow.transition">
-            <field name="act_from" ref="act_double_check"/>
+        <record id="sale.trans_draft_router" model="workflow.transition">
+            <field name="act_from" ref="act_approve2"/>
             <field name="act_to" ref="sale.act_router"/>
+            <field name="signal">order_confirm</field>
         </record>
 
     </data>

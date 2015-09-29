@@ -35,7 +35,7 @@
     'data': [
         #'security/ir.model.access.csv',
         'sales_double_validation_view.xml',
-        #'sales_double_validation_workflow.xml'
+        'sales_double_validation_workflow.xml'
         #'views/payment_form_report.xml',
         #'whytecliff_payment_report.xml',
      ],

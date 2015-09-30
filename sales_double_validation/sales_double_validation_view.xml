@@ -8,10 +8,11 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//form/header/button[@name='action_button_confirm']" position="replace">
-                    <button name="action_button_confirm" states="draft,sent" class="oe_highlight" string="Approve" type="object" groups="base.group_user"/>
+                    <button name="action_button_confirm_sale" states="draft,sent" class="oe_highlight" string="Confirm Sale" groups="base.group_user" type="object"/>
                 </xpath>
                 <xpath expr="//form/header/button[@name='action_button_confirm']" position="after">
-                    <button name="action_button_confirm_sale" states="approval2" string="Approve2" class="oe_highlight" type="object" groups="base.group_user"/>
+                    <button name="order_approval1" states="approval1" class="oe_highlight" string="Approve" groups="base.group_user"/>
+                    <button name="order_approval2" states="approval2" string="Approve2" class="oe_highlight"  groups="base.group_user"/>
                 </xpath>
                 <xpath expr="//form/header/field[@name='state']" position="replace">
                     <field name="state" widget="statusbar" statusbar_visible="draft,sent,approval1,approval2,progress,done" statusbar_colors='{"invoice_except":"red","waiting_date":"blue"}'/>
@@ -22,3 +23,4 @@
 
     </data>
 </openerp>
+

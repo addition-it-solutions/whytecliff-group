@@ -6,14 +6,14 @@
             <field name="wkf_id" ref="sale.wkf_sale"/>
             <field name="name">approve1</field>
             <field name="kind">function</field>
-            <field name="action">action_button_confirm()</field>
+            <field name="action">action_button_confirm_school()</field>
         </record>
 
         <record id="act_approve2" model="workflow.activity">
             <field name="wkf_id" ref="sale.wkf_sale"/>
             <field name="name">approve2</field>
             <field name="kind">function</field>
-            <field name="action">action_button_confirm_sale()</field>
+            <field name="action">action_button_confirm()</field>
         </record>
 
         <record id="sale.trans_draft_sent" model="workflow.transition">
@@ -45,6 +45,11 @@
             <field name="act_to" ref="sale.act_router"/>
             <field name="signal">order_confirm</field>
         </record>
+        <record id="sale.trans_router_wait_invoice" model="workflow.transition">
+            <field name="act_from" ref="sale.act_router"/>
+            <field name="act_to" ref="sale.act_wait_invoice"/>
+        </record>
 
     </data>
 </openerp>
+

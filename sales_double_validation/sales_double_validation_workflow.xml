@@ -13,7 +13,7 @@
             <field name="wkf_id" ref="sale.wkf_sale"/>
             <field name="name">approve2</field>
             <field name="kind">function</field>
-            <field name="action">action_button_confirm()</field>
+            <field name="action">write({'state':'manual'})</field>
         </record>
 
         <record id="sale.trans_draft_sent" model="workflow.transition">
@@ -45,10 +45,12 @@
             <field name="act_to" ref="sale.act_router"/>
             <field name="signal">order_confirm</field>
         </record>
+
         <record id="sale.trans_router_wait_invoice" model="workflow.transition">
             <field name="act_from" ref="sale.act_router"/>
             <field name="act_to" ref="sale.act_wait_invoice"/>
         </record>
+
 
     </data>
 </openerp>

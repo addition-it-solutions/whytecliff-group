@@ -113,7 +113,7 @@ class report_depreciation_schedule(report_sxw.rml_parse, report_far_common):
     
     def _total_gross_amount(self, category, data, asset=None):
         total_gross_amount = 0.0
-        for field in ['amount_already_depreciated','current_depreciation','next_period_depreciation']:
+        for field in ['amount_already_depreciated','next_period_depreciation']:
             if not asset:
                 total_gross_amount += self._total_amounts(category, data, field)
             else:

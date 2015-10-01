@@ -25,10 +25,10 @@ from openerp.report import report_sxw
 from openerp.tools.translate import _
 from openerp.osv import osv
 
-import sys
-sys.path.insert(0, 'addons/account/report')
+# import sys
+# sys.path.insert(0, 'addons/account/report')
 
-from common_report_header import common_report_header
+from openerp.addons.account.report.common_report_header import common_report_header
 
 
 class report_profit_loss(report_sxw.rml_parse, common_report_header):
@@ -161,7 +161,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
     
     def _get_total(self, report_id, data):
         lines = self.get_lines(report_id)
-        ctx = self.context
+        ctx = self.context.copy()
         if data['form'].get('period_from', False):
             period_from = data['form']['period_from']
         if data['form'].get('period_to', False):

@@ -43,26 +43,35 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr t-foreach="get_lines(data)" t-as="a">
-                                <t t-if="a['level'] != 0">
-                                    <t t-if="a.get('level') &gt; 3"><t t-set="style" t-value="'font-weight: normal;'"/></t>
-                                    <t t-if="not a.get('level') &gt; 3"><t t-set="style" t-value="'font-weight: bold;'"/></t>
-
-                                    <td>
-                                        <span style="color: white;" t-esc="'..' * a.get('level', 0)"/>
-                                        <span t-att-style="style" t-esc="a.get('name')"/>
+                            <t t-foreach="get_reports(data)" t-as="report">
+                                <tr t-foreach="get_lines(report)" t-as="a">
+                                    <t t-if="a['level'] != 0">
+                                        <t t-if="a.get('level') &gt; 3"><t t-set="style" t-value="'font-weight: normal;'"/></t>
+                                        <t t-if="not a.get('level') &gt; 3"><t t-set="style" t-value="'font-weight: bold;'"/></t>
+    
+                                        <td>
+                                            <span style="color: white;" t-esc="'..' * a.get('level', 0)"/>
+                                            <span t-att-style="style" t-esc="a.get('name')"/>
+                                        </td>
+                                        <td class="text-right" t-foreach="get_columns_data(a.get('account_id'),data)" t-as="col_data">
+                                            <span t-att-style="style" t-esc="formatLang(col_data)"/>
+                                        </td>
+                                        <td t-if="a.get('account_id')" class="text-right" style="white-space: nowrap;">
+                                            <span t-att-style="style" t-esc="formatLang(get_total_balance(a.get('account_id'),data))"/>
+                                        </td>
+                                        <!--td t-if="not a.get('account_id') and a.get('balance')" class="text-right" style="white-space: nowrap;">
+                                            <span t-att-style="style" t-esc="formatLang(a.get('balance'))"/>
+                                        </td-->
+                                    </t>
+                                </tr>
+                                <tr t-if="report.level != 0">
+                                    <t t-set="style" t-value="'font-weight: bold;'"/>
+                                    <td class="text-right" t-att-style="style">Total <span t-att-style="style" t-esc="report.name"/> :</td>
+                                    <td class="text-right" t-foreach="get_total(report,data)" t-as="val">
+                                        <span t-att-style="style" t-esc="formatLang(val)"/>
                                     </td>
-                                    <td class="text-right" t-foreach="get_columns_data(a.get('account_id'),data)" t-as="col_data">
-                                        <span t-att-style="style" t-esc="formatLang(col_data)"/>
-                                    </td>
-                                    <td t-if="a.get('account_id')" class="text-right" style="white-space: nowrap;">
-                                        <span t-att-style="style" t-esc="formatLang(get_total_balance(a.get('account_id'),data))"/>
-                                    </td>
-                                    <!--td t-if="a.get('account_id') and a.get('level') == 1" class="text-right" style="white-space: nowrap;">
-                                        <span t-att-style="style" t-esc="formatLang(a.get('balance'))"/>
-                                    </td-->
-                                </t>
-                            </tr>
+                                </tr>
+                            </t>
                         </tbody>
                     </table>
                 </div>

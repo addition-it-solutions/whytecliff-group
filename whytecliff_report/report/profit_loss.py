@@ -19,6 +19,7 @@
 #
 ##############################################################################
 import time
+from dateutil import rrule, parser
 
 from openerp.report import report_sxw
 from openerp.tools.translate import _
@@ -34,6 +35,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
     def __init__(self, cr, uid, name, context=None):
         super(report_profit_loss, self).__init__(cr, uid, name, context=context)
         self.localcontext.update( {
+            'get_reports': self.get_reports,
             'get_lines': self.get_lines,
             'time': time,
             'get_fiscalyear': self._get_fiscalyear,
@@ -45,6 +47,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
             'get_columns': self._get_columns,
             'get_columns_data': self._get_columns_data,
             'get_total_balance': self._get_total_balance,
+            'get_total': self._get_total,
         })
         self.context = context
 
@@ -78,17 +81,16 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
         obj_move = self.pool.get('account.move.line')
         periods = self._get_columns(data)
         result = []
-        context = data['form'].get('used_context',{})
+        ctx = data['form'].get('used_context',{})
         move_state = ['draft','posted']
-        if context.get('target_move') == 'posted':
+        if ctx.get('target_move') == 'posted':
             move_state = ['posted','']
 
-        
         for period in periods:
             sum_balance = ''
             if account_id:
-                context.update({'date_from': period.date_start, 'date_to': period.date_stop})
-                query = obj_move._query_get(self.cr, self.uid, obj='l', context=context)
+                ctx.update({'date_from': period.date_start, 'date_to': period.date_stop})
+                query = obj_move._query_get(self.cr, self.uid, obj='l', context=ctx)
                 self.cr.execute('SELECT (sum(debit) - sum(credit)) as tot_balance \
                         FROM account_move_line l \
                         JOIN account_move am ON (am.id = l.move_id) \
@@ -110,12 +112,19 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
         for bal in result:
             balance += bal
         return balance
+    
+    def get_reports(self, data):
+        fin_report_obj = self.pool.get('account.financial.report')
+        reports = []
+        report_ids = fin_report_obj._get_children_by_order(self.cr, self.uid, [data['form']['account_report_id'][0]], context=self.context)
+        for report in fin_report_obj.browse(self.cr, self.uid, report_ids, context=self.context):
+            reports.append(report)
+        return reports
 
-    def get_lines(self, data):
+    def get_lines(self, report_id):
         lines = []
         account_obj = self.pool.get('account.account')
-        ids2 = self.pool.get('account.financial.report')._get_children_by_order(self.cr, self.uid, [data['form']['account_report_id'][0]], context=data['form']['used_context'])
-        for report in self.pool.get('account.financial.report').browse(self.cr, self.uid, ids2, context=self.context):
+        for report in self.pool.get('account.financial.report').browse(self.cr, self.uid, [report_id.id], context=self.context):
             vals = {
                 'name': report.name,
                 'balance': '',
@@ -149,6 +158,27 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
                     }
                     lines.append(vals)
         return lines
+    
+    def _get_total(self, report_id, data):
+        lines = self.get_lines(report_id)
+        ctx = self.context
+        if data['form'].get('period_from', False):
+            period_from = data['form']['period_from']
+        if data['form'].get('period_to', False):
+            period_to = data['form']['period_to']
+        period_obj = self.pool.get('account.period')
+        account_obj = self.pool.get('account.account')
+        result = []
+        for period in period_obj.search(self.cr, self.uid, [('id','>=',period_from), ('id','<=',period_to)]):
+            total = 0.0
+            for line in lines:
+                account_id = line.get('account_id')
+                ctx.update({'period_from': period, 'period_to': period})
+                account = account_obj.browse(self.cr, self.uid, account_id, context=ctx)
+                if account.level == 1:
+                    total += account.balance
+            result.append(total)
+        return result
 
 class report_profitloss(osv.AbstractModel):
     _name = 'report.whytecliff_report.report_profitloss'

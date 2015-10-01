@@ -27,8 +27,8 @@ class playerlayer_sale_order(models.Model):
     state = fields.Selection([
            ('draft', 'Draft Quotation'),
            ('sent', 'Quotation Sent'),
-           ('approval1','Approval By School'),
-           ('approval2','Approval By Sales Manager'),
+           ('approval1','Waiting for Approval'),
+           ('approval2','Waiting Validation'),
            ('cancel', 'Cancelled'),
            ('waiting_date', 'Waiting Schedule'),
            ('progress', 'Sales Order'),
@@ -47,10 +47,6 @@ class playerlayer_sale_order(models.Model):
         res = super(playerlayer_sale_order,self).action_button_confirm()
         return res
 
-    @api.multi
-    def action_button_confirm_school(self):
-        return self.write({'state':'approval2'})
-    
     @api.multi
     def action_button_confirm_sale(self):
         self.write({'state':'approval1'})

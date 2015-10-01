@@ -43,7 +43,7 @@ class playerlayer_sale_order(models.Model):
               
     @api.multi
     def action_button_confirm(self):
-        res = self.signal_workflow('order_approval2')
+        self.signal_workflow('order_approval2')
         res = super(playerlayer_sale_order,self).action_button_confirm()
         return res
 

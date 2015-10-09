@@ -1,4 +1,4 @@
-    # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -184,6 +184,12 @@ class report_profitloss(osv.AbstractModel):
     _name = 'report.whytecliff_report.report_profitloss'
     _inherit = 'report.abstract_report'
     _template = 'whytecliff_report.report_profitloss'
+    _wrapped_report_class = report_profit_loss
+
+class report_balancesheet(osv.AbstractModel):
+    _name = 'report.whytecliff_report.report_balancesheet'
+    _inherit = 'report.abstract_report'
+    _template = 'whytecliff_report.report_balancesheet'
     _wrapped_report_class = report_profit_loss
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

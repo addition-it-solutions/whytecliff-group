@@ -56,10 +56,15 @@ class profit_loss_report(osv.osv_memory):
         return res
 
     def _print_report(self, cr, uid, ids, data, context=None):
+        report_obj = self.pool.get('account.financial.report')
         data['form'].update(self.read(cr, uid, ids, ['account_report_id', 'target_move'], context=context)[0])
         if not context:
             context = {}
         context['landscape'] = True
+        account_report_id = data['form']['account_report_id']
+        report_name = report_obj.browse(cr, uid, account_report_id[0], context).name
+        if report_name == 'Balance Sheet':
+            return self.pool['report'].get_action(cr, uid, [], 'whytecliff_report.report_balancesheet', data=data, context=context)
         return self.pool['report'].get_action(cr, uid, [], 'whytecliff_report.report_profitloss', data=data, context=context)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

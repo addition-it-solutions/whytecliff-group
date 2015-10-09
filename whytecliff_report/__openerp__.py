@@ -36,6 +36,7 @@ Report Customization
     'data': [
         'wizard/profit_loss_view.xml',
         'views/report_profit_loss.xml',
+        'views/report_balance_sheet.xml',
         'whytecliff_report.xml',
      ],
     'demo': [],

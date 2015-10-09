@@ -12,5 +12,17 @@
             menu="False"
             auto="False"
         />
+
+        <report 
+            id="action_report_balance_sheet" 
+            model="report.balance.sheet" 
+            string="Balance Sheet"
+            report_type="qweb-pdf"
+            name="whytecliff_report.report_balancesheet" 
+            file="whytecliff_report.report_balancesheet"
+            menu="False"
+            auto="False"
+        />
+
     </data>
 </openerp>

@@ -2,19 +2,29 @@
 <openerp>
     <data>
 
+        <!-- Activity -->
+
         <record id="act_approve1" model="workflow.activity">
             <field name="wkf_id" ref="sale.wkf_sale"/>
             <field name="name">approve1</field>
             <field name="kind">function</field>
-            <field name="action">write({'state':'approval2'})</field>
-        </record>
-
-        <record id="act_approve2" model="workflow.activity">
-            <field name="wkf_id" ref="sale.wkf_sale"/>
-            <field name="name">approve2</field>
-            <field name="kind">function</field>
             <field name="action">write({'state':'manual'})</field>
         </record>
+
+
+        <record id="sale.act_wait_ship" model="workflow.activity">
+            <field name="wkf_id" ref="sale.wkf_sale"/>
+            <field name="name">wait_ship</field>
+        </record>
+
+        <record id="sale.act_ship" model="workflow.activity">
+            <field name="wkf_id" ref="sale.wkf_sale"/>
+            <field name="name">ship</field>
+            <field name="kind">function</field>
+            <field name="action">action_ship_create()</field>
+        </record>
+
+        <!-- Transition -->
 
         <record id="sale.trans_draft_sent" model="workflow.transition">
             <field name="act_from" ref="sale.act_draft"/>
@@ -33,18 +43,25 @@
             <field name="act_to" ref="act_approve1"/>
             <field name="signal">order_approval1</field>
         </record>
-        
-        <record id="trans_approve1_approve2" model="workflow.transition">
-            <field name="act_from" ref="act_approve1"/>
-            <field name="act_to" ref="act_approve2"/>
-            <field name="signal">order_approval2</field>
-        </record>
 
         <record id="sale.trans_draft_router" model="workflow.transition">
-            <field name="act_from" ref="act_approve2"/>
+            <field name="act_from" ref="act_approve1"/>
             <field name="act_to" ref="sale.act_router"/>
             <field name="signal">order_confirm</field>
         </record>
+
+        <record id="sale.trans_router_wait_ship" model="workflow.transition">
+            <field name="act_from" ref="sale.act_router"/>
+            <field name="act_to" ref="sale.act_wait_ship"/>
+        </record>
+<!--
+        <record id="sale.trans_wait_ship_ship" model="workflow.transition">
+            <field name="act_from" ref="act_wait_ship"/>
+            <field name="act_to" ref="act_ship"/>
+            <field name="condition">procurement_needed() and ((order_policy!='prepaid') or invoiced)</field>
+        </record>
+-->
     </data>
 </openerp>
+
 

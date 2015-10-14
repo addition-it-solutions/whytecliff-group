@@ -24,5 +24,16 @@
             auto="False"
         />
 
+        <report 
+            id="action_report_general_ledger_period_analysis" 
+            model="account.report.general.ledger" 
+            string="General Ledger Period Analysis"
+            report_type="qweb-pdf"
+            name="whytecliff_report.report_generalledger" 
+            file="whytecliff_report.report_generalledger"
+            menu="False"
+            auto="False"
+        />
+
     </data>
 </openerp>

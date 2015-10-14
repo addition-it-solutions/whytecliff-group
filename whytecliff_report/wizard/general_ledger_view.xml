@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <menuitem
+            icon="STOCK_PRINT"
+            name="General Ledger Period Analysis"
+            parent="account.final_accounting_reports"
+            action="account.action_account_general_ledger_menu"
+            groups="account.group_account_manager,account.group_account_user"
+            id="menu_general_ledger_period_analysis"
+           />
+
+    </data>
+</openerp>

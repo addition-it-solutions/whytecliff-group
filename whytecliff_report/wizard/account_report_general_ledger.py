@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Copyright (C) 2015-2016 Whytecliff Group Pvt. Ltd.
+#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,7 +18,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import profit_loss
-import account_general_ledger
+
+from openerp.osv import osv
+
+class whytec_account_report_general_ledger(osv.osv_memory):
+    _inherit = "account.report.general.ledger"
+
+    def _print_report(self, cr, uid, ids, data, context=None):
+        super(whytec_account_report_general_ledger, self)._print_report(cr, uid, ids, data, context)
+        return self.pool['report'].get_action(cr, uid, [], 'whytecliff_report.report_generalledger', data=data, context=context)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

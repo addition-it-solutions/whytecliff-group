@@ -35,8 +35,10 @@ Report Customization
     'depends': ['account'],
     'data': [
         'wizard/profit_loss_view.xml',
+        'wizard/general_ledger_view.xml',
         'views/report_profit_loss.xml',
         'views/report_balance_sheet.xml',
+        'views/report_generalledger.xml',
         'whytecliff_report.xml',
      ],
     'demo': [],

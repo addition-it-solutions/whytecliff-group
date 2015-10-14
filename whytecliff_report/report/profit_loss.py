@@ -25,9 +25,6 @@ from openerp.report import report_sxw
 from openerp.tools.translate import _
 from openerp.osv import osv
 
-# import sys
-# sys.path.insert(0, 'addons/account/report')
-
 from openerp.addons.account.report.common_report_header import common_report_header
 
 

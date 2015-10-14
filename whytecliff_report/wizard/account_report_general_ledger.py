@@ -25,7 +25,9 @@ class whytec_account_report_general_ledger(osv.osv_memory):
     _inherit = "account.report.general.ledger"
 
     def _print_report(self, cr, uid, ids, data, context=None):
-        super(whytec_account_report_general_ledger, self)._print_report(cr, uid, ids, data, context)
-        return self.pool['report'].get_action(cr, uid, [], 'whytecliff_report.report_generalledger', data=data, context=context)
+        res = super(whytec_account_report_general_ledger, self)._print_report(cr, uid, ids, data, context)
+        if context and context.get('whytecliff',False):
+            return self.pool['report'].get_action(cr, uid, [], 'whytecliff_report.report_generalledger', data=data, context=context)
+        return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

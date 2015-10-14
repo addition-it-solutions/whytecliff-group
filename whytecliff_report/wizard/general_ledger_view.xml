@@ -2,11 +2,22 @@
 <openerp>
     <data>
 
+        <record id="action_whytec_general_ledger_menu" model="ir.actions.act_window">  <!-- rename id -->
+            <field name="name">General Ledger Period Analysis</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.report.general.ledger</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'whytecliff': True}</field>
+            <field name="view_id" ref="account.account_report_general_ledger_view"/>
+            <field name="target">new</field>
+        </record>
+
         <menuitem
             icon="STOCK_PRINT"
             name="General Ledger Period Analysis"
             parent="account.final_accounting_reports"
-            action="account.action_account_general_ledger_menu"
+            action="action_whytec_general_ledger_menu"
             groups="account.group_account_manager,account.group_account_user"
             id="menu_general_ledger_period_analysis"
            />

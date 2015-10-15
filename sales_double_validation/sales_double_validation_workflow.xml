@@ -7,8 +7,6 @@
         <record id="act_approve1" model="workflow.activity">
             <field name="wkf_id" ref="sale.wkf_sale"/>
             <field name="name">approve1</field>
-            <field name="kind">function</field>
-            <field name="action">write({'state':'manual'})</field>
         </record>
 
 

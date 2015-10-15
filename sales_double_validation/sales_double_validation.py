@@ -106,6 +106,6 @@ class playerlayer_sale_order(models.Model):
                             break
                 order.write(val)
         
-        self.write(cr, uid, ids, {'state':'manual'}, context=context)
+        #self.write(cr, uid, ids, {'state':'manual'}, context=context)
         return True
     

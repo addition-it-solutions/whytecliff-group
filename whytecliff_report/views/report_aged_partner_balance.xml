@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_netbalance">
+    <t t-call="report.html_container">
+        <t t-call="report.internal_layout">
+            <div class="page">
+                <h2>Aged Summary - Net Receivables/Payables</h2>
+
+                <div class="row mt32 mb32">
+                    <div class="col-xs-3">
+                        <strong>Chart of Accounts:</strong>
+                        <p t-esc="get_account(data)"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Fiscal Year:</strong>
+                        <p t-esc="get_fiscalyear(data)"/>
+                    </div>
+                </div>
+
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Organization Name</th>
+                            <th class="text-right">Net Receivable / (Net Payable)</th>
+                            <th class="text-right">Current</th>
+                            <th class="text-right">Period 1</th>
+                            <th class="text-right">Period 2</th>
+                            <th class="text-right">Period 3+</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="lines(data)" t-as="line">
+                            <td>
+                                <span t-esc="line.get('name')"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(line.get('sum_net_balance'))"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(line.get('current_balance'))"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(line.get('period_1'))"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(line.get('period_2'))"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(line.get('period_3'))"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

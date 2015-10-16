@@ -28,7 +28,11 @@
     'description': """
 Report Customization
 ====================
-
+    * Balance sheet
+    * Balance Sheet Period Analysis
+    * General Ledger Profit and Loss Report
+    * Net Aged AR AP In Local By Org Report
+    * Profit And Loss Period Analysis
 
 """,
     'images': [],
@@ -36,6 +40,8 @@ Report Customization
     'data': [
         'wizard/profit_loss_view.xml',
         'wizard/general_ledger_view.xml',
+        'wizard/aged_partner_balance_view.xml',
+        'views/report_aged_partner_balance.xml',
         'views/report_profit_loss.xml',
         'views/report_balance_sheet.xml',
         'views/report_generalledger.xml',

@@ -37,6 +37,7 @@ class aged_partner_balance(report_sxw.rml_parse, common_report_header):
         self.localcontext.update({
             'time': time,
             'lines': self.lines,
+            'get_account': self._get_account,
             'get_start_period': self.get_start_period,
             'get_end_period': self.get_end_period,
             'get_start_date': self._get_start_date,
@@ -54,6 +55,7 @@ class aged_partner_balance(report_sxw.rml_parse, common_report_header):
     def lines(self, data):
         obj_partner = self.pool.get('res.partner')
         obj_fiscalyear = self.pool.get('account.fiscalyear')
+        obj_period = self.pool.get('account.period')
         result = []
         ctx = {}
         current_date = datetime.now()
@@ -62,11 +64,20 @@ class aged_partner_balance(report_sxw.rml_parse, common_report_header):
         fiscal_date_start = fiscalyear.date_start
         date_stop = (current_date + relativedelta(months=-3) + relativedelta(day=31)).strftime('%Y-%m-%d')
         for partner in self.partners:
-            res = {'name': partner.name}
+            res = {
+                   'name': partner.name,
+                   'current_balance': 0.0,
+                   'period_1': 0.0,
+                   'period_2': 0.0,
+                   'period_3': 0.0
+            }
             for month in range(3):
                 month = month - total_months
                 date_start = (current_date + relativedelta(months=month)).strftime('%Y-%m-01')
                 date_end = (current_date + relativedelta(months=month) + relativedelta(day=31)).strftime('%Y-%m-%d')
+                period_ids = obj_period.search(self.cr, self.uid, [('date_start','=',date_start),('date_stop','=',date_end)])
+                if not period_ids:
+                    continue
                 ctx['date_from'] = date_start
                 ctx['date_to'] = date_end
                 debit = obj_partner.browse(self.cr, self.uid, partner.id, context=ctx).debit

@@ -23,22 +23,12 @@ from openerp import models, api, _
 class whytecliff_debrand(models.Model):
     _inherit = "mail.notification"
     
-    
     @api.model
     def get_signature_footer(self, user_id, res_model=None, res_id=None, context=None, user_signature=True):
-        
         footer = super(whytecliff_debrand,self).get_signature_footer(user_id)
         footer = str(footer)
-        modify_sign = new_sign = footer[footer.find('using'):]
-        user = self.env['res.users'].browse([user_id])[0]
-         
-        company_name = user.company_id.name
-         
-        if company_name == 'Vytal Support (Hong Kong) Ltd' or company_name == 'Cliff Premiums Ltd' or company_name == 'Whytecliff Group' or company_name == 'Whytecliff Consultants Ltd' or company_name == 'Vytal Support (Thailand) Co Ltd' or company_name == 'Playerlayer HKG':
-            new_sign = "</small>\n</span>"
-
-        footer = footer.replace(modify_sign,new_sign)
+        modify_sign = footer[footer.find('using'):]
+        footer = footer.replace(modify_sign,"</small>")
         return footer
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

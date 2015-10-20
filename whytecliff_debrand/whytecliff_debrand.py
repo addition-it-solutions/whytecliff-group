@@ -34,21 +34,10 @@ class whytecliff_debrand(models.Model):
          
         company_name = user.company_id.name
          
-        if company_name == 'Vytal Support (Hong Kong) Ltd':
-            new_sign = "using <a style='color:inherit' href='http://managerhkg.vytalsupport.com/'>Vytal Support (Hong Kong) Ltd</a></small>\n</span>"
-        elif company_name == 'Cliff Premiums Ltd':
-            new_sign = "using <a style='color:inherit' href='http://cliffpremiums.com/'>Cliff Premiums Ltd</a></small>\n</span>"
-        elif company_name == 'Whytecliff Group':
-            new_sign = "using <a style='color:inherit' href='http://manager.whytecliff.com/'>Whytecliff Group</a></small>\n</span>"
-        elif company_name == 'Whytecliff Consultants Ltd':
-            new_sign = "using <a style='color:inherit' href='http://manager.whytecliffconsultants.com/'>Whytecliff Consultants Ltd</a></small>\n</span>"
-        elif company_name == 'Vytal Support (Thailand) Co Ltd':
-            new_sign = "using <a style='color:inherit' href='http://manager.vytalsupport.com/'>Vytal Support (Thailand) Co Ltd</a></small>\n</span>"
-        elif company_name == 'Playerlayer HKG':
-            new_sign = "using <a style='color:inherit' href='https://manager.playerlayer.com.hk/'>Playerlayer HKG</a></small>\n</span>"
+        if company_name == 'Vytal Support (Hong Kong) Ltd' or company_name == 'Cliff Premiums Ltd' or company_name == 'Whytecliff Group' or company_name == 'Whytecliff Consultants Ltd' or company_name == 'Vytal Support (Thailand) Co Ltd' or company_name == 'Playerlayer HKG':
+            new_sign = "</small>\n</span>"
 
         footer = footer.replace(modify_sign,new_sign)
-        
         return footer
 
 

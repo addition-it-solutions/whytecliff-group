@@ -41,6 +41,8 @@ Report Customization
         'wizard/profit_loss_view.xml',
         'wizard/general_ledger_view.xml',
         'wizard/aged_partner_balance_view.xml',
+        'wizard/profit_loss_variance_view.xml',
+        'views/report_profit_loss_variance.xml',
         'views/report_aged_partner_balance.xml',
         'views/report_profit_loss.xml',
         'views/report_balance_sheet.xml',

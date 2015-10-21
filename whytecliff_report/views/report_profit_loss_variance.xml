@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_profitlossvariance">
+    <t t-call="report.html_container">
+        <t t-call="report.internal_layout">
+            <div class="page">
+                <h2><span t-esc="res_company.name"/>: Profit and Loss Variance</h2>
+
+                <div class="row mt32">
+                    <div class="col-xs-3">
+                        <strong>Chart of Accounts:</strong>
+                        <p t-esc="get_account(data)"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Fiscal Year:</strong>
+                        <p t-esc="get_fiscalyear(data)"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>For Period:</strong>
+                        <p t-esc="get_period(data)"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Target Moves:</strong>
+                        <p t-esc="get_target_move(data)"/>
+                    </div>
+                </div>
+
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Account</th>
+                            <th class="text-right">Period Actual</th>
+                            <th class="text-right">YTD Actual</th>
+                            <th class="text-right">Period Last Year</th>
+                            <th class="text-right">YTD Last Year</th>
+                            <th class="text-right">Total Year Last Year</th>
+                            <th class="text-right">Period Variance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="lines(data['form'])" t-as="childrenaccount">
+                            <t t-if="childrenaccount['type'] == 'view'">
+                                <t t-set="style" t-value="'font-weight:bold;'"/>
+                            </t>
+                            <t t-if="childrenaccount['type'] != 'view'">
+                                <t t-set="style" t-value="'font-weight:normal;'"/>
+                            </t>
+
+                            <td>
+                                <span t-att-style="style" t-esc="childrenaccount['code']"/>
+                            </td>
+                            <td>
+                                <span style="color: white;" t-esc="'.' * (childrenaccount['level'] - 1)"/>
+                                <span t-att-style="style" t-esc="childrenaccount['name']"/>
+                            </td>
+                            <td class="text-right">
+                                 <span t-att-style="style" t-esc="childrenaccount['period_actual']"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-att-style="style" t-esc="childrenaccount['ytd_actual']"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-att-style="style" t-esc="childrenaccount['period_last']"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-att-style="style" t-esc="childrenaccount['ytd_last']"/>
+                            </td>  
+                            <td class="text-right">
+                                <span t-att-style="style" t-esc="childrenaccount['total_last']"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-att-style="style" t-esc="childrenaccount['period_variance']"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

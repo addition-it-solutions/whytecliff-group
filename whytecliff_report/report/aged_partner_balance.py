@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Whytecliff Group
+# Copyright (c) 2015-2016 Whytecliff Group Pvt. Ltd.
 #
 # This program is Free Software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #
 ##############################################################################
+############## Done By: Addition IT Solutions Pvt. Ltd. ######################
 
 import time
 from datetime import datetime

@@ -46,5 +46,16 @@
             auto="False"
         />
 
+        <report 
+            id="action_profit_loss_variacne" 
+            model="report.profit.loss.variance" 
+            string="Profit and Loss Variance"
+            report_type="qweb-pdf"
+            name="whytecliff_report.report_profitlossvariance" 
+            file="whytecliff_report.report_profitlossvariance"
+            menu="False"
+            auto="False"
+        />
+
     </data>
 </openerp>

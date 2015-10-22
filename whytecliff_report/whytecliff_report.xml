@@ -57,5 +57,16 @@
             auto="False"
         />
 
+        <report 
+            id="action_ar_aged_outstanding" 
+            model="report.ar.aged.outstanding" 
+            string="AR Aged Outstanding"
+            report_type="qweb-pdf"
+            name="whytecliff_report.report_aragedoutstanding" 
+            file="whytecliff_report.report_aragedoutstanding"
+            menu="False"
+            auto="False"
+        />
+
     </data>
 </openerp>

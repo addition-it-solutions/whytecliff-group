@@ -22,5 +22,6 @@ import profit_loss
 import profit_loss_variance
 import account_general_ledger
 import aged_partner_balance
+import ar_aged_outstanding
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

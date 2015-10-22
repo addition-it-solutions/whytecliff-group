@@ -18,10 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import profit_loss
-import profit_loss_variance
-import account_report_general_ledger
-import aged_partner_balance
-import ar_aged_outstanding
+############## Done By: Addition IT Solutions Pvt. Ltd. ######################
+from openerp.osv import fields, osv
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+class ar_aged_outstanding_report(osv.osv_memory):
+    _name = "ar.aged.outstanding.report"
+    _inherit = "profit.loss.variance.report"
+    _description = "AR Aged Outstanding"
+    
+    def _print_report(self, cr, uid, ids, data, context=None):
+        super(ar_aged_outstanding_report, self)._print_report(cr, uid, ids, data, context=context)
+#         context['landscape'] = True
+        return self.pool['report'].get_action(cr, uid, [], 'whytecliff_report.report_aragedoutstanding', data=data, context=context)

@@ -64,6 +64,7 @@ class ar_aged_outstanding(report_sxw.rml_parse, common_report_header):
             'get_target_move': self._get_target_move,
             'get_period': self._get_period,
             'get_currency': self._get_currency,
+            'get_total_balance': self._get_total_balance,
         })
         self.context = context
     
@@ -78,6 +79,18 @@ class ar_aged_outstanding(report_sxw.rml_parse, common_report_header):
         for curr_id in currency_obj.search(self.cr, self.uid, []):
             currency.append(currency_obj.browse(self.cr, self.uid, curr_id))
         return currency
+    
+    def _get_total_balance(self, data, currency):
+        total_residual = total_current = total_period_1 = total_period_2 = total_period_3 = total_period_4 = 0.0
+        for data in self.lines(data, currency):
+            total_residual += data['residual']
+            total_current += data['current_balance']
+            total_period_1 += data['period_1']
+            total_period_2 += data['period_1']
+            total_period_3 += data['period_1']
+            total_period_4 += data['period_1']
+        result = [total_residual,total_current,total_period_1,total_period_2,total_period_3,total_period_4]
+        return result
     
     def lines(self, data, currency):
         obj_fiscalyear = self.pool.get('account.fiscalyear')

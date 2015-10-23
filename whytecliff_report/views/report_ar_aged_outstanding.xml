@@ -69,6 +69,13 @@
                                     <span t-esc="formatLang(line.get('period_4'))"/>
                                 </td>
                             </tr>
+                            <tr>
+                                <t t-set="style" t-value="'font-weight: bold;'"/>
+                                <td class="text-right" t-att-style="style"><span t-att-style="style" t-esc="currency['name']"/> Due:</td>
+                                <td class="text-right" t-foreach="get_total_balance(data,currency['name'])" t-as="val">
+                                    <span t-att-style="style" t-esc="formatLang(val)"/>
+                                </td>
+                            </tr>
                         </t>
                     </tbody>
                 </table>

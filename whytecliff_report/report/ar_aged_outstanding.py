@@ -86,9 +86,9 @@ class ar_aged_outstanding(report_sxw.rml_parse, common_report_header):
             total_residual += data['residual']
             total_current += data['current_balance']
             total_period_1 += data['period_1']
-            total_period_2 += data['period_1']
-            total_period_3 += data['period_1']
-            total_period_4 += data['period_1']
+            total_period_2 += data['period_2']
+            total_period_3 += data['period_3']
+            total_period_4 += data['period_4']
         result = [total_residual,total_current,total_period_1,total_period_2,total_period_3,total_period_4]
         return result
     
@@ -97,8 +97,8 @@ class ar_aged_outstanding(report_sxw.rml_parse, common_report_header):
         obj_period = self.pool.get('account.period')
         fiscalyear = obj_fiscalyear.browse(self.cr, self.uid, data['form'].get('fiscalyear_id'))
 
-        date_start = obj_period.browse(self.cr, self.uid, data['form']['period_id']).date_start
-        current_date = datetime.strptime(date_start,'%Y-%m-%d')
+        period = obj_period.browse(self.cr, self.uid, data['form']['period_id'])
+        current_date = datetime.strptime(period.date_start,'%Y-%m-%d')
 
         total_date_start = fiscalyear.date_start
         total_date_stop = (current_date + relativedelta(months=-4) + relativedelta(day=31)).strftime('%Y-%m-%d')
@@ -111,13 +111,13 @@ class ar_aged_outstanding(report_sxw.rml_parse, common_report_header):
                 left join res_currency curr on curr.id=inv.currency_id
                 left join res_partner part on part.id=inv.partner_id
             where inv.residual <> 0.0 and
-                  inv.date_invoice <= '%s' and
                   inv.date_invoice >= '%s' and
+                  inv.date_invoice <= '%s' and
                   (part.customer and (part.customer or part.supplier)) and
                   curr.name = '%s'
             group by part.name, curr.name
             order by curr.name
-        """% (current_date.strftime('%Y-%m-%d'),total_date_start,currency))
+        """% (total_date_start,period.date_stop,currency))
         query_res = self.cr.dictfetchall()
         
         current_date = current_date.replace(day=1)

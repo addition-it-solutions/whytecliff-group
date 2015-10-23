@@ -80,15 +80,18 @@ class ar_aged_outstanding(report_sxw.rml_parse, common_report_header):
         return currency
     
     def lines(self, data, currency):
-#         obj_fiscalyear = self.pool.get('account.fiscalyear')
-        current_date = datetime.now()
-#         total_months = 2
-#         fiscalyear = obj_fiscalyear.browse(self.cr, self.uid, data['form'].get('fiscalyear_id'))
-#         fiscal_date_start = fiscalyear.date_start
-        date_stop = (current_date + relativedelta(months=-3)).strftime('%Y-%m-01')
+        obj_fiscalyear = self.pool.get('account.fiscalyear')
+        obj_period = self.pool.get('account.period')
+        fiscalyear = obj_fiscalyear.browse(self.cr, self.uid, data['form'].get('fiscalyear_id'))
+
+        date_start = obj_period.browse(self.cr, self.uid, data['form']['period_id']).date_start
+        current_date = datetime.strptime(date_start,'%Y-%m-%d')
+
+        total_date_start = fiscalyear.date_start
+        total_date_stop = (current_date + relativedelta(months=-4) + relativedelta(day=31)).strftime('%Y-%m-%d')
+
         self.cr.execute("""
-            select  
-                curr.name as currency,
+            select
                 part.name as name,
                 sum(inv.residual) as residual
             from account_invoice inv
@@ -97,21 +100,62 @@ class ar_aged_outstanding(report_sxw.rml_parse, common_report_header):
             where inv.residual <> 0.0 and
                   inv.date_invoice <= '%s' and
                   inv.date_invoice >= '%s' and
+                  (part.customer and (part.customer or part.supplier)) and
                   curr.name = '%s'
             group by part.name, curr.name
             order by curr.name
-        """% (current_date.strftime('%Y-%m-%d'),date_stop,currency))
+        """% (current_date.strftime('%Y-%m-%d'),total_date_start,currency))
         query_res = self.cr.dictfetchall()
+        
         current_date = current_date.replace(day=1)
         end_date = current_date + relativedelta(months=-3) + relativedelta(day=31)
         end_date_until = current_date + relativedelta(day=31)
         starting_dates = rrule.rrule(rrule.MONTHLY, dtstart=(current_date + relativedelta(months=-3)), until=current_date)
         ending_dates = list(rrule.rrule(rrule.MONTHLY, dtstart=end_date, until=end_date_until,bymonthday=(31, -1),bysetpos=1))
-        res = []
+
+        date_intervals = []
         for dates in starting_dates:
             for edates in ending_dates:
                 if dates.month == edates.month:
-                    res.append((dates.strftime('%Y-%m-%d'),edates.strftime('%Y-%m-%d')))
+                    date_intervals.append((dates.strftime('%Y-%m-%d'),edates.strftime('%Y-%m-%d'),dates.month))
+
+        date_intervals.append((total_date_start,total_date_stop,int(total_date_stop[5:-3])))
+        current_month = current_date.month
+        for val in query_res:
+            for date in date_intervals:
+                if date[2] == current_month:
+                    bal_type = 'current_balance'
+                if date[2] == current_month - 1:
+                    bal_type = 'period_1'
+                if date[2] == current_month - 2:
+                    bal_type = 'period_2'
+                if date[2] == current_month - 3:
+                    bal_type = 'period_3'
+                if date[2] == current_month - 4:
+                    bal_type = 'period_4'
+                self.cr.execute("""
+                    select
+                        part.name,
+                        sum(inv.residual) as """ + bal_type + """
+                    from account_invoice inv
+                        left join res_currency curr on curr.id=inv.currency_id
+                        left join res_partner part on part.id=inv.partner_id
+                    where inv.residual <> 0.0 and
+                          inv.date_invoice >= %s and
+                          inv.date_invoice <= %s and
+                          curr.name = %s and
+                          part.name = %s
+                    group by part.name, curr.name
+                    order by curr.name
+                """, (date[0],date[1],currency,val['name']))
+                query_in = self.cr.dictfetchall()
+                if not query_in:
+                    query_in.append(val)
+                for data in query_in:
+                    if bal_type not in val.keys():
+                        val.update({bal_type: 0.0})
+                    if data['name'] == val['name']:
+                        val.update(data)
         return query_res
 
 class report_ar_agedoutstanding(osv.AbstractModel):

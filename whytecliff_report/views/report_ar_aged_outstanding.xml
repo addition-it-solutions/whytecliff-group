@@ -5,7 +5,7 @@
     <t t-call="report.html_container">
         <t t-call="report.internal_layout">
             <div class="page">
-                <h2>Net Receivables/Payables by Org</h2>
+                <h2>Receivables Outstanding Transactions - Summary in Invoice Currency</h2>
 
                 <div class="row mt32 mb32">
                     <div class="col-xs-3">
@@ -19,6 +19,10 @@
                     <div class="col-xs-3">
                         <strong>For Period:</strong>
                         <p t-esc="get_period(data)"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Local Currency:</strong>
+                        <p t-esc="res_company.currency_id.name"/>
                     </div>
                 </div>
 
@@ -49,7 +53,7 @@
                                 <td class="text-right">
                                     <span t-esc="formatLang(line.get('residual'))"/>
                                 </td>
-                                <!--td class="text-right">
+                                <td class="text-right">
                                     <span t-esc="formatLang(line.get('current_balance'))"/>
                                 </td>
                                 <td class="text-right">
@@ -63,7 +67,7 @@
                                 </td>
                                 <td class="text-right">
                                     <span t-esc="formatLang(line.get('period_4'))"/>
-                                </td-->
+                                </td>
                             </tr>
                         </t>
                     </tbody>

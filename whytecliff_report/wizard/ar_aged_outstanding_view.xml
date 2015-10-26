@@ -2,18 +2,33 @@
 <openerp>
     <data>
 
+        <record id="whytec_aged_outstanding_view" model="ir.ui.view">
+            <field name="name">Aged Outstanding</field>
+            <field name="model">ar.aged.outstanding.report</field>
+            <field name="inherit_id" ref="account.account_common_report_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='target_move']" position="after">
+                    <field name="period_id"/>
+                    <field name="org_type"/>
+                </xpath>
+            </field>
+        </record>
+
         <record id="action_ar_aged_outstanding_report_view" model="ir.actions.act_window">
-            <field name="name">AR Aged Outstanding</field>
+            <field name="name">AR/AP Aged Outstanding</field>
             <field name="res_model">ar.aged.outstanding.report</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="whytecliff_report.whytec_profit_loss_variance_report_view"/>
+            <field name="view_id" ref="whytec_aged_outstanding_view"/>
             <field name="target">new</field>
         </record>
 
 
         <menuitem
-                name="AR Aged Outstanding"
+                name="AR/AP Aged Outstanding"
                 parent="account.final_accounting_reports"
                 action="action_ar_aged_outstanding_report_view"
                 id="menu_ar_aged_outstanding_report_view"

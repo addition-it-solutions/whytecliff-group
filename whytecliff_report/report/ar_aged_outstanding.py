@@ -102,6 +102,11 @@ class ar_aged_outstanding(report_sxw.rml_parse, common_report_header):
 
         total_date_start = fiscalyear.date_start
         total_date_stop = (current_date + relativedelta(months=-4) + relativedelta(day=31)).strftime('%Y-%m-%d')
+        
+        if data['form']['org_type'] == 'receivable':
+            domain = '(part.customer and (part.customer or part.supplier))'
+        elif data['form']['org_type'] == 'payable':
+            domain = '(part.supplier and (part.supplier or part.customer))'
 
         self.cr.execute("""
             select
@@ -113,11 +118,11 @@ class ar_aged_outstanding(report_sxw.rml_parse, common_report_header):
             where inv.residual <> 0.0 and
                   inv.date_invoice >= '%s' and
                   inv.date_invoice <= '%s' and
-                  (part.customer and (part.customer or part.supplier)) and
+                  %s and
                   curr.name = '%s'
             group by part.name, curr.name
             order by curr.name
-        """% (total_date_start,period.date_stop,currency))
+        """% (total_date_start,period.date_stop,domain,currency))
         query_res = self.cr.dictfetchall()
         
         current_date = current_date.replace(day=1)
@@ -176,3 +181,10 @@ class report_ar_agedoutstanding(osv.AbstractModel):
     _inherit = 'report.abstract_report'
     _template = 'whytecliff_report.report_aragedoutstanding'
     _wrapped_report_class = ar_aged_outstanding
+
+class report_ap_agedoutstanding(osv.AbstractModel):
+    _name = 'report.whytecliff_report.report_apagedoutstanding'
+    _inherit = 'report.abstract_report'
+    _template = 'whytecliff_report.report_apagedoutstanding'
+    _wrapped_report_class = ar_aged_outstanding
+

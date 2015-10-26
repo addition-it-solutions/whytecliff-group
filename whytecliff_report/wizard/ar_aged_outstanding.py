@@ -24,9 +24,18 @@ from openerp.osv import fields, osv
 class ar_aged_outstanding_report(osv.osv_memory):
     _name = "ar.aged.outstanding.report"
     _inherit = "profit.loss.variance.report"
-    _description = "AR Aged Outstanding"
+    _description = "Aged Outstanding"
+    
+    _columns = {
+        'org_type': fields.selection([('receivable','Receivable'),('payable','Payable')], string='Organisation Type',required=True)
+    }
+    
     
     def _print_report(self, cr, uid, ids, data, context=None):
         super(ar_aged_outstanding_report, self)._print_report(cr, uid, ids, data, context=context)
 #         context['landscape'] = True
-        return self.pool['report'].get_action(cr, uid, [], 'whytecliff_report.report_aragedoutstanding', data=data, context=context)
+        data['form'].update(self.read(cr, uid, ids, ['org_type'], context=context)[0])
+        if data['form']['org_type'] == 'receivable':
+            return self.pool['report'].get_action(cr, uid, [], 'whytecliff_report.report_aragedoutstanding', data=data, context=context)
+        elif data['form']['org_type'] == 'payable':
+            return self.pool['report'].get_action(cr, uid, [], 'whytecliff_report.report_apagedoutstanding', data=data, context=context)

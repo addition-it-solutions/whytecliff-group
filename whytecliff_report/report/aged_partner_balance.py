@@ -95,7 +95,8 @@ class aged_partner_balance(report_sxw.rml_parse, common_report_header):
             credit = obj_partner.browse(self.cr, self.uid, partner.id, context=ctx).credit
             res['period_3'] = debit + credit
             res['sum_net_balance'] = res['current_balance'] + res['period_1'] + res['period_2'] + res['period_3']
-            result.append(res)
+            if res['sum_net_balance'] != 0.0:
+                result.append(res)
         return result
 
 class report_partnerbalance(osv.AbstractModel):

@@ -38,7 +38,7 @@
         <report 
             id="action_whytec_report_partner_balance" 
             model="whytec.report.partner.balance" 
-            string="Aged Partner Balance"
+            string="Aged Summary"
             report_type="qweb-pdf"
             name="whytecliff_report.report_netbalance" 
             file="whytecliff_report.report_netbalance"

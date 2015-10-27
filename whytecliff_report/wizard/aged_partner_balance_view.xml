@@ -3,7 +3,7 @@
     <data>
 
         <record id="whytec_account_partner_balance_report_view" model="ir.ui.view">
-            <field name="name">Aged Partner Balance</field>
+            <field name="name">Aged Summary</field>
             <field name="model">whytec.partner.balance</field>
             <field name="inherit_id" ref="account.account_common_report_view" />
             <field name="arch" type="xml">
@@ -20,7 +20,7 @@
         </record>
 
         <record id="action_whytec_partner_balance" model="ir.actions.act_window">
-            <field name="name">Aged Partner Balance</field>
+            <field name="name">Aged Summary</field>
             <field name="res_model">whytec.partner.balance</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
@@ -31,7 +31,7 @@
 
         <menuitem
                 icon="STOCK_PRINT"
-                name="Aged Partner Balance"
+                name="Aged Summary"
                 parent="account.final_accounting_reports"
                 action="action_whytec_partner_balance"
                 id="menu_action_whytec_partner_balance"

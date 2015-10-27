@@ -27,7 +27,7 @@
 
 
         <menuitem
-                name="Profit and Loss Variance"
+                name="GL Profit and Loss"
                 parent="account.final_accounting_reports"
                 action="action_whytec_profit_loss_variance_report_view"
                 id="menu_whytec_profit_loss_variance_report_view"

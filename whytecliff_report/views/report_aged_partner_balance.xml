@@ -5,7 +5,8 @@
     <t t-call="report.html_container">
         <t t-call="report.internal_layout">
             <div class="page">
-                <strong>Aged Summary - Net Receivables &amp; Payables - In Local Currency By Organization as at </strong>  <strong t-esc="datetime.datetime.now().strftime('%Y')"/><strong t-esc="datetime.datetime.now().strftime('%m')"/>
+                <h3>Aged Summary - Net Receivables &amp; Payables - In Local Currency By Organization as at 
+                    <span t-esc="datetime.datetime.now().strftime('%Y%m')"/> </h3>
                 <div class="row mt32 mb32">
                     <div class="col-xs-3">
                         <strong>Chart of Accounts:</strong>

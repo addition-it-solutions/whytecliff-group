@@ -30,10 +30,9 @@ class ar_aged_outstanding_report(osv.osv_memory):
         'org_type': fields.selection([('receivable','Receivable'),('payable','Payable')], string='Organisation Type',required=True)
     }
     
-    
     def _print_report(self, cr, uid, ids, data, context=None):
         super(ar_aged_outstanding_report, self)._print_report(cr, uid, ids, data, context=context)
-#         context['landscape'] = True
+        context['landscape'] = True
         data['form'].update(self.read(cr, uid, ids, ['org_type'], context=context)[0])
         if data['form']['org_type'] == 'receivable':
             return self.pool['report'].get_action(cr, uid, [], 'whytecliff_report.report_aragedoutstanding', data=data, context=context)

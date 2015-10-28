@@ -44,6 +44,8 @@ class aged_partner_balance(report_sxw.rml_parse, common_report_header):
             'get_start_date': self._get_start_date,
             'get_end_date': self._get_end_date,
             'get_fiscalyear': self._get_fiscalyear,
+            'get_org_type': self._get_org_type,
+            'get_total_balance': self._get_total_balance,
         })
         
     def set_context(self, objects, data, ids, report_type=None):
@@ -53,7 +55,21 @@ class aged_partner_balance(report_sxw.rml_parse, common_report_header):
         objects = sorted(objects, key=lambda x: (x.ref, x.name))
         return super(aged_partner_balance, self).set_context(objects, data, partner_ids, report_type)
 
-    def lines(self, data):
+    def _get_org_type(self):
+        return ['receivable','payable']
+    
+    def _get_total_balance(self, data, org_type):
+        sum_net_balance = total_current = total_period_1 = total_period_2 = total_period_3 = 0.0
+        for data in self.lines(data, org_type):
+            sum_net_balance += data['sum_net_balance']
+            total_current += data['current_balance']
+            total_period_1 += data['period_1']
+            total_period_2 += data['period_2']
+            total_period_3 += data['period_3']
+        result = [sum_net_balance,total_current,total_period_1,total_period_2,total_period_3]
+        return result
+
+    def lines(self, data, org_type):
         obj_partner = self.pool.get('res.partner')
         obj_fiscalyear = self.pool.get('account.fiscalyear')
         obj_period = self.pool.get('account.period')
@@ -81,19 +97,25 @@ class aged_partner_balance(report_sxw.rml_parse, common_report_header):
                     continue
                 ctx['date_from'] = date_start
                 ctx['date_to'] = date_end
-                debit = obj_partner.browse(self.cr, self.uid, partner.id, context=ctx).debit
-                credit = obj_partner.browse(self.cr, self.uid, partner.id, context=ctx).credit
+                amount = 0.0
+                if (partner.supplier and (partner.supplier or partner.customer)) and org_type == 'payable':
+                    amount = (obj_partner.browse(self.cr, self.uid, partner.id, context=ctx).debit) * -1 or 0.0
+                if (partner.customer and (partner.customer or partner.supplier)) and org_type == 'receivable':
+                    amount = obj_partner.browse(self.cr, self.uid, partner.id, context=ctx).credit
                 if month == 0:
-                    res['current_balance'] = debit + credit
+                    res['current_balance'] = amount
                 if month == -1:
-                    res['period_1'] = debit + credit
+                    res['period_1'] = amount
                 if month == -2:
-                    res['period_2'] = debit + credit
+                    res['period_2'] = amount
             ctx['date_from'] = fiscal_date_start
             ctx['date_to'] = date_stop
-            debit = obj_partner.browse(self.cr, self.uid, partner.id, context=ctx).debit
-            credit = obj_partner.browse(self.cr, self.uid, partner.id, context=ctx).credit
-            res['period_3'] = debit + credit
+            amount = 0.0
+            if (partner.supplier and (partner.supplier or partner.customer)) and org_type == 'payable':
+                amount = (obj_partner.browse(self.cr, self.uid, partner.id, context=ctx).debit) * -1 or 0.0
+            if (partner.customer and (partner.customer or partner.supplier)) and org_type == 'receivable':
+                amount = obj_partner.browse(self.cr, self.uid, partner.id, context=ctx).credit
+            res['period_3'] = amount
             res['sum_net_balance'] = res['current_balance'] + res['period_1'] + res['period_2'] + res['period_3']
             if res['sum_net_balance'] != 0.0:
                 result.append(res)

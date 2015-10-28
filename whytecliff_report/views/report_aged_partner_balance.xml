@@ -34,26 +34,42 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr t-foreach="lines(data)" t-as="line">
-                            <td>
-                                <span t-esc="line.get('name')"/>
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="formatLang(line.get('sum_net_balance'))"/>
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="formatLang(line.get('current_balance'))"/>
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="formatLang(line.get('period_1'))"/>
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="formatLang(line.get('period_2'))"/>
-                            </td>
-                            <td class="text-right">
-                                <span t-esc="formatLang(line.get('period_3'))"/>
-                            </td>
-                        </tr>
+                        <t t-foreach="get_org_type()" t-as="a">
+                            <tr style="font-weight: bold;">
+                                <td colspan="4">
+                                    <span t-if="a == 'receivable'">Receivables</span>
+                                    <span t-if="a == 'payable'">Payables</span>
+                                </td>
+                            </tr>
+                            <tr t-foreach="lines(data,a)" t-as="line">
+                                <td>
+                                    <span style="color: white;" t-esc="'..'"/>
+                                    <span t-esc="line.get('name')"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="formatLang(line.get('sum_net_balance'))"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="formatLang(line.get('current_balance'))"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="formatLang(line.get('period_1'))"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="formatLang(line.get('period_2'))"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="formatLang(line.get('period_3'))"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <t t-set="style" t-value="'font-weight: bold;'"/>
+                                <td class="text-right" t-att-style="style">Total:</td>
+                                <td class="text-right" t-foreach="get_total_balance(data,a)" t-as="val">
+                                    <span t-att-style="style" t-esc="formatLang(val)"/>
+                                </td>
+                            </tr>
+                        </t>
                     </tbody>
                 </table>
             </div>

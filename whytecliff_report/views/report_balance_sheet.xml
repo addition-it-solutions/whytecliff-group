@@ -6,12 +6,11 @@
         <t t-foreach="docs" t-as="o">
             <t t-call="report.internal_layout">
                 <div class="page">
-                    <h2 t-esc="data['form']['account_report_id'][1]"/>
-
+                    <h2> <span t-esc="data['form']['account_report_id'][1]"/> as at <span t-esc="datetime.datetime.now().strftime('%b %d %Y')"/></h2>
                     <div class="row mt32 mb32">
                         <div class="col-xs-3">
                             <strong>Chart of Accounts:</strong>
-                            <p t-esc="get_account(data)"/>
+                            <strong><p t-esc="get_account(data)"/></strong>
                         </div>
                         <div class="col-xs-3">
                             <strong>Fiscal Year:</strong>

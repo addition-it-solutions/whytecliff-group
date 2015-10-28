@@ -6,14 +6,14 @@
         <t t-foreach="docs" t-as="o">
             <t t-call="report.internal_layout">
                 <div class="page">
-                    <h2 t-esc="data['form']['account_report_id'][1]"/>
+                    <h2> <span t-esc="data['form']['account_report_id'][1]"/> Report – Period Analysis to <span t-esc="datetime.datetime.now().strftime('%Y%m')"/></h2>
 
                     <div class="row mt32 mb32">
                         <div class="col-xs-3">
                             <strong>Chart of Accounts:</strong>
                             <p t-esc="get_account(data)"/>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-xs-2">
                             <strong>Fiscal Year:</strong>
                             <p t-esc="get_fiscalyear(data)"/>
                         </div>
@@ -28,18 +28,22 @@
                                 </p>
                             </p>
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-xs-2">
                             <strong>Target Moves:</strong>
                             <p t-esc="get_target_move(data)"/>
                         </div>
+                        <div class="col-xs-2">
+                            <strong>Currency:</strong>
+                            <p t-esc="res_company.currency_id.name"/>
+                        </div>
                     </div>
-
+                    <p class="text-center" style='font-weight:bold;'>Movement in Each Period </p>
                     <table class="table table-condensed">
                         <thead>
                             <tr>
                                 <th>Name</th>
                                 <th class="text-right" t-foreach="get_columns(data)" t-as="col_label"><span t-field="col_label.name"/></th>
-                                <th class="text-right">Balance</th>
+                                <th class="text-right">Total YTD</th>
                             </tr>
                         </thead>
                         <tbody>

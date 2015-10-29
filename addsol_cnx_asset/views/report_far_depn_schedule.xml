@@ -35,6 +35,7 @@
                             <tr class="text-center">
                                 <th>Asset Name</th>
                                 <th>Asset Location</th>
+                                <th>Purchase Date</th>
                                 <th class="text-right">Gross Value</th>
                                 <th class="text-right">Current Depreciation</th>
                                 <th class="text-right">Amount Already Depreciated</th>
@@ -43,7 +44,7 @@
                         </thead>
                         <tbody>
                             <tr style="font-weight: bold;">
-                                <td></td>
+                                <td></td><td></td>
                                 <td class="text-right"> Total: </td>
                                 <td class="text-right">
                                     <span t-esc="formatLang(total_gross_amount(o,data), digits=get_digits(dp='Account'))"/>
@@ -62,6 +63,7 @@
                                 <tr t-if="get_depreciations(asset)">
                                     <td><span t-esc="asset['name']"/></td>
                                     <td><span t-esc="asset['location']"/></td>
+                                    <td><span t-esc="formatLang(asset['purchase_date'], date=True)"/></td>
                                     <td class="text-right"><span t-esc="formatLang(total_gross_amount(o,data,asset),digits=get_digits(dp='Account'))"/></td>
                                     <td class="text-right">
                                         <span t-esc="formatLang(get_amounts(asset, 'current_depreciation'),digits=get_digits(dp='Account'))"/>

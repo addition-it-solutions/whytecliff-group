@@ -37,8 +37,13 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th class="text-center" t-att-colspan="cols()">Balance in Each Period</th>
+                                <th class="text-center">Total YTD</th> 
+                            </tr>
+                            <tr>
+                                <th></th>
                                 <th class="text-right" t-foreach="get_columns(data)" t-as="col_label"><span t-field="col_label.name"/></th>
-                                <th class="text-right">Balance</th>
+                                <th class="text-center"><span t-esc="get_end_period(data)"/></th>
                             </tr>
                         </thead>
                         <tbody>

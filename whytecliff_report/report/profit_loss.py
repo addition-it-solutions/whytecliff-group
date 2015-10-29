@@ -19,14 +19,12 @@
 #
 ##############################################################################
 import time
-from dateutil import rrule, parser
 
 from openerp.report import report_sxw
 from openerp.tools.translate import _
 from openerp.osv import osv
 
 from openerp.addons.account.report.common_report_header import common_report_header
-
 
 class report_profit_loss(report_sxw.rml_parse, common_report_header):
     def __init__(self, cr, uid, name, context=None):
@@ -45,6 +43,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
             'get_columns_data': self._get_columns_data,
             'get_total_balance': self._get_total_balance,
             'get_total': self._get_total,
+            'cols': self.cols,
         })
         self.context = context
 
@@ -60,6 +59,12 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
         if (data['model'] == 'ir.ui.menu'):
             objects = self.pool.get('account.account').browse(self.cr, self.uid, new_ids)
         return super(report_profit_loss, self).set_context(objects, data, new_ids, report_type=report_type)
+
+    def cols(self):
+        ctx = self.context
+        period_ids = self.pool.get('account.period').search(self.cr, self.uid, [('id','>=',ctx['period_from']), ('id','<=',ctx['period_to'])])
+        cols = len(period_ids)
+        return cols
 
     def _get_columns(self, data):
         period_obj = self.pool.get('account.period')

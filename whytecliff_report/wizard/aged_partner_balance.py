@@ -37,14 +37,8 @@ class whytec_account_partner_balance(osv.osv_memory):
     def _print_report(self, cr, uid, ids, data, context=None):
         if context is None:
             context = {}
-#         data = self.pre_print_report(cr, uid, ids, data, context=context)
+        context['landscape'] = True
         data['form'].update(self.read(cr, uid, ids, ['partner_ids'])[0])
         return self.pool['report'].get_action(cr, uid, [], 'whytecliff_report.report_netbalance', data=data, context=context)
-    
-#     def pre_print_report(self, cr, uid, ids, data, context=None):
-#         if context is None:
-#             context = {}
-#         data['form'].update(self.read(cr, uid, ids, ['partner_ids'], context=context)[0])
-#         return super(whytec_account_partner_balance, self).pre_print_report(cr, uid, ids, data=data, context=context)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

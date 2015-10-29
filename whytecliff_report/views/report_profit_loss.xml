@@ -39,12 +39,12 @@
                     </div>
                     <table class="table table-condensed">
                         <thead>
-                            <tr>
+                            <tr style='background:#D8D8D8;'>
                                 <th>Name</th>
                                 <th class="text-center" t-att-colspan="cols()">Movement in Each Period</th>
                                 <th class="text-center">Total YTD</th> 
                             </tr>
-                            <tr>
+                            <tr style='background:#D8D8D8;'>
                                 <th></th>
                                 <th class="text-right" t-foreach="get_columns(data)" t-as="col_label"><span t-field="col_label.name"/></th>
                                 <th class="text-center"><span t-esc="get_end_period(data)"/></th>

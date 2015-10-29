@@ -25,7 +25,7 @@
 
                 <table class="table table-condensed">
                     <thead>
-                        <tr>
+                        <tr style='background:#D8D8D8;'>
                             <th>Organization Name</th>
                             <th class="text-right">Total Due In Invoiced Currency</th>
                             <th class="text-right">Current</th>

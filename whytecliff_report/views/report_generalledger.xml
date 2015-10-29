@@ -64,7 +64,7 @@
 
                     <table class="table table-condensed">
                         <thead>
-                            <tr class="text-center">
+                            <tr class="text-center" style='background:#D8D8D8;'>
                                 <th>Date</th>
                                 <th>JRNL</th>
                                 <th>Partner</th>

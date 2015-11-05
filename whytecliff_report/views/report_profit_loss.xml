@@ -54,14 +54,14 @@
                             <t t-foreach="get_reports(data)" t-as="report">
                                 <tr t-foreach="get_lines(report)" t-as="a">
                                     <t t-if="a['level'] != 0">
-                                        <t t-if="a.get('level') &gt; 3"><t t-set="style" t-value="'font-weight: normal;'"/></t>
-                                        <t t-if="not a.get('level') &gt; 3"><t t-set="style" t-value="'font-weight: bold;'"/></t>
+                                        <t t-if="a.get('level') &gt; 2"><t t-set="style" t-value="'font-weight: normal;'"/></t>
+                                        <t t-if="not a.get('level') &gt; 2"><t t-set="style" t-value="'font-weight: bold;'"/></t>
     
                                         <td>
                                             <span style="color: white;" t-esc="'..' * a.get('level', 0)"/>
                                             <span t-att-style="style" t-esc="a.get('name')"/>
                                         </td>
-                                        <td class="text-right" t-foreach="get_columns_data(a.get('account_id'),data)" t-as="col_data">
+                                        <td class="text-right" t-foreach="get_columns_data(a.get('account_id'),data, a.get('report_type'))" t-as="col_data">
                                             <span t-att-style="style" t-esc="formatLang(col_data)"/>
                                         </td>
                                         <td t-if="a.get('account_id')" class="text-right" style="white-space: nowrap;">

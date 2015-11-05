@@ -24,7 +24,7 @@
 
                 <table class="table table-condensed">
                     <thead>
-                        <tr style='background:#D8D8D8;'>
+                        <tr>
                             <th>Organization Name</th>
                             <th class="text-right">Net Receivable / (Net Payable)</th>
                             <th class="text-right">Current</th>

@@ -74,11 +74,11 @@ class ar_aged_outstanding(report_sxw.rml_parse, common_report_header):
         return ''
     
     def _get_currency(self):
-        currency_obj = self.pool.get('res.currency')
-        currency = []
-        for curr_id in currency_obj.search(self.cr, self.uid, []):
-            currency.append(currency_obj.browse(self.cr, self.uid, curr_id))
-        return currency
+        self.cr.execute("""select distinct(cur.name)
+                            from account_invoice inv
+                            left join res_currency cur on cur.id = inv.currency_id""")
+        res = [curr[0] for curr in self.cr.fetchall()]
+        return res
     
     def _get_total_balance(self, data, currency):
         total_residual = total_current = total_period_1 = total_period_2 = total_period_3 = total_period_4 = 0.0

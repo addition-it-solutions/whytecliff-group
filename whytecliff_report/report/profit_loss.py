@@ -79,7 +79,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
             res.append(period)
         return res
 
-    def _get_columns_data(self, account_id, data):
+    def _get_columns_data(self, account_id, data, report_type=''):
         obj_move = self.pool.get('account.move.line')
         periods = self._get_columns(data)
         result = []
@@ -101,6 +101,8 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
                         AND '+ query +' '
                         ,(account_id, tuple(move_state)))
                 sum_balance = self.cr.fetchone()[0] or 0.0
+                if report_type == 'expense' and sum_balance != 0.0:
+                    sum_balance = sum_balance * -1
             result.append(sum_balance)
         return result
 
@@ -109,16 +111,21 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
         account_obj = self.pool.get('account.account')
         account = account_obj.browse(self.cr, self.uid, account_id, context=self.context)
         if account.level == 1:
+            if account.user_type.report_type == 'expense':
+                return account.balance * -1
             return account.balance
         result = self._get_columns_data(account_id, data)
         for bal in result:
             balance += bal
+        if account.user_type.report_type == 'expense':
+            balance = balance * -1
         return balance
     
     def get_reports(self, data):
         fin_report_obj = self.pool.get('account.financial.report')
         reports = []
         report_ids = fin_report_obj._get_children_by_order(self.cr, self.uid, [data['form']['account_report_id'][0]], context=self.context)
+        report_ids.sort()
         for report in fin_report_obj.browse(self.cr, self.uid, report_ids, context=self.context):
             reports.append(report)
         return reports
@@ -157,6 +164,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
                         'level': report.display_detail == 'detail_with_hierarchy' and min(account.level + 1,6) or 6, #account.level + 1
                         'account_type': account.type,
                         'account_id': account.id,
+                        'report_type': account.user_type.report_type
                     }
                     lines.append(vals)
         return lines
@@ -179,6 +187,8 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
                 account = account_obj.browse(self.cr, self.uid, account_id, context=ctx)
                 if account.level == 1:
                     total += account.balance
+                    if account.user_type.report_type == 'expense':
+                        total = total * -1
             result.append(total)
         return result
 

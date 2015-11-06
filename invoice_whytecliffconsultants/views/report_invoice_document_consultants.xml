@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_invoice_document_consultants" inherit_id="account.report_invoice_document">
+    <xpath expr="//div[@class='page']" position="replace">
+    	<div class="page">
+        	<div class="oe_structure"/>
+        	<div class="row mt32 mb32">
+                <div class="col-xs-6"  style="margin-top:25px;">
+                 <!--   <strong>Ship To:</strong>
+                	
+                        t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;,&quot;name&quot;], &quot;no_marker&quot;: true}"/>
+                       <t t-if="o.x_ship_to_partner_id.vat">TIN: <span t-field="o.x_ship_to_partner_id.vat"/></t>-->
+                </div>
+                <div class="col-xs-5 col-xs-offset-1" style="margin-top:25px;">
+                    <strong>Bill To:</strong>
+                    <div>
+                        <div t-field="o.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;,&quot;name&quot;], &quot;no_marker&quot;: true}"/>
+                         <t t-if="o.partner_id.vat">TIN: <span t-field="o.partner_id.vat"/></t>
+                    </div>
+                </div>
+      	  </div>
+ 
+        	<h2>
+                 <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Balance Invoice N#</span>
+                <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
+   	         <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
+                <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
+                <span t-if="o.type == 'out_refund'">Credit Note N#</span>
+                <span t-if="o.type == 'in_refund'">Supplier Credit Note N#</span>
+                <span t-if="o.type == 'in_invoice'">Supplier Invoice N#</span>
+                <span t-field="o.number"/>
+            </h2>
+ 
+ <table class="row mt32 mb32 table table-bordered text-center">
+                <tr>
+                    <td class="col-xs-2"><strong>Payment Terms</strong></td>
+                    <td class="col-xs-2"><strong>SO Number</strong></td>
+                    <td class="col-xs-2"><strong>Invoice Date</strong></td>
+                    <td class="col-xs-2"><strong>Due Date</strong></td>
+                <!--	<td class="col-xs-2"><strong>Shipping Method</strong></td>-->
+                    <td class="col-xs-2"><strong>Partner Ref.</strong></td>
+                    <td class="col-xs-2"><strong>Currency</strong></td>
+                </tr>
+                <tr>
+                   <!-- <td><p t-if="o.payment_term"> <span t-field="o.payment_term.name"/></p></td> -->
+                   <td><p t-field="o.payment_term.name"/></td>
+                   <td><p t-field="o.origin"/></td>
+                   <td><p t-field="o.date_invoice"/></td>
+                   <td><p t-field="o.date_due"/></td>
+                <!--   <td><p t-field="o.x_shipping_method"/></td>-->
+                   <td><p t-field="o.name"/></td>
+                   <td><p t-field="o.currency_id.name"/></td>
+                </tr>
+            </table>
+ 
+        	<table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th class="text-right">Unit Price</th>
+                        <th class="text-right">Amount</th>
+                    </tr>
+                </thead>
+                <tbody class="invoice_tbody">
+                    <tr t-foreach="o.invoice_line" t-as="l">
+                        <td><span t-field="l.name"/></td>
+                        <td>
+                            <span t-field="l.quantity"/>
+                            <span t-field="l.uos_id" groups="product.group_uom"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="l.price_unit"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="l.price_subtotal" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+ 
+        	<div class="row">
+                <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed">
+                       
+                        <tr class="border-black">
+                            <td><strong>Total</strong></td>
+                            <td class="text-right">
+                             	<span t-field="o.amount_total" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                            </td>
+                        </tr>
+    	            </table>
+                </div>
+            </div>
+ 
+        	<div class="row" t-if="o.tax_line">
+                <div class="col-xs-6">
+                    <table class="table table-condensed">
+                        <thead>
+           	             <tr>
+                                <th>Tax</th>
+                            	<th class="text-right">Base</th>
+                            	<th class="text-right">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.tax_line" t-as="t">
+                                <td><span t-field="t.name"/></td>
+                            	<td class="text-right">
+                           	     <span t-field="t.base" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                            	</td>
+                            	<td class="text-right">
+          	                      <span t-field="t.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                            	</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+       	<div class="row">
+             <div t-if="o.type != 'out_refund'" class="col-xs-12">
+             <br><strong>Our Bank Account :</strong> Beneficiary Name: : Whytecliff Consultants Ltd</br>
+<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Beneficiary Bank: : HSBC Hong Kong, 1 Queens Road Central</br>          	                                 
+<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Account Number: 112-246186-001
+</br>
+<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;SWIFT: HSBCHKHHHKH</br>
+ 
+             <p></p><strong>Other Payment Methods :</strong>
+              <br>1) Cash Payment: Pay cash in any Whytecliff Consultants Ltd office.</br>
+              <br>2) Check by Mail: Send a crossed USD cheque, payable to Whytecliff Consultants Ltd.</br>
+          	
+               <p></p><p>Note that all payments by Paypal or credit card will incur a 3.5% handling fee.</p>
+            <p>&#160;&#160;</p>
+       	     </div>
+        	<p t-if="o.comment">
+                <strong>Comment:</strong>
+                <span t-field="o.comment"/>
+        	</p>
+        	<p t-if="o.payment_term.note">
+                <strong>Payment Term:</strong>
+          	  <span t-field="o.payment_term.note"/>
+        	</p>
+        	<p t-if="o.fiscal_position.note">
+                <strong>Fiscal Position Remark:</strong>
+                <span t-field="o.fiscal_position.note"/>
+        	</p>
+            </div>
+    	</div>
+	</xpath>
+</template>
+</data>

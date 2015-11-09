@@ -25,9 +25,12 @@
 
                 <table class="table table-condensed">
                     <thead>
-                        <tr style='background:#D8D8D8;'>
-                            <th>Organization Name</th>
-                            <th class="text-right">Total Due In Invoiced Currency</th>
+                        <tr>
+                            <th rowspan="2">Org. Name</th>
+                            <th rowspan="2" class="text-right" style='background:#D8D8D8;'>Total Due In Invoiced Currency</th>
+                            <th class="text-center" colspan="5" style='background:#D8D8D8;'>AGEING BY INVOICE DATE</th>
+                        </tr>
+                        <tr>
                             <th class="text-right">Current</th>
                             <th class="text-right">Period 1</th>
                             <th class="text-right">Period 2</th>

@@ -34,7 +34,7 @@ Report Customization
     'images': [],
     'depends': ['account'],
     'data': [
-        'views/report_invoice_document_whytecliffconsultants.xml',
+        'views/report_invoice_document_consultants.xml',
      ],
     'demo': [],
     'test': [],

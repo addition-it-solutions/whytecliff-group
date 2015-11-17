@@ -49,13 +49,25 @@ class report_far_disposals(report_sxw.rml_parse, report_far_common):
             'get_start_period': self.get_start_period,
             'get_end_period': self.get_end_period,
             'get_assets': self._get_assets,
+            'total_gross_amount': self._total_gross_amount,
             'get_depreciations': self._get_depreciations,
-            'get_depreciated_amount': self._get_depreciated_amount,
+            'get_amounts': self._get_amounts,
+            'total_amounts': self._total_amounts,
             'sum_assets': self._sum_assets,
-            'total_depreciated_amount': self._total_depreciated_amount,
         })
         self.context = context
-        
+
+    def _get_assets(self, category, data):
+        asset_obj = self.pool.get('account.asset.asset')
+        cr = self.cr
+        uid = self.uid
+        res = []
+        domain = [('category_id','=',category.id),('state','=','close')]
+        asset_ids = asset_obj.search(cr, uid, domain)
+        for asset in asset_obj.browse(cr, uid, asset_ids):
+            res.append(asset)
+        return res
+
     def _sum_assets(self, category):
         addition = 0.0
         data = {'form': self.context}
@@ -82,28 +94,40 @@ class report_far_disposals(report_sxw.rml_parse, report_far_common):
         domain = [('depreciation_date','>=',start_date), 
                   ('depreciation_date','<=',end_date),
                   ('asset_id','=',asset.id),
-                  ('parent_state','=','open'),
                   ('move_check','=',True)]
         depn_ids = depn_obj.search(cr, uid, domain)
         for depn in depn_obj.browse(cr, uid, depn_ids):
             res.append(depn)
         return res
-        
-    def _get_depreciated_amount(self, asset):
-        addition = 0.0
+    
+    def _get_amounts(self, asset, field=''):
+        amount_value = 0.0
         depreciations = self._get_depreciations(asset)
         for depn in depreciations:
-            if depn.sequence == len(depreciations):
-                addition = depn.depreciated_value
-        return addition
+            if field == 'amount_already_depreciated':
+                amount_value = depn.depreciated_value + depn.amount
+            elif field == 'next_period_depreciation':
+                amount_value = depn.remaining_value
+            elif field == 'depn_date':
+                amount_value = depn.depreciation_date
+        return amount_value
     
-    def _total_depreciated_amount(self, category, data):
+    def _total_amounts(self, category, data, field=''):
         total_depn = 0.0
         assets = self._get_assets(category, data)
         for asset in assets:
-            total_depn += self._get_depreciated_amount(asset)
+            total_depn += self._get_amounts(asset, field)
         return total_depn
-
+    
+    def _total_gross_amount(self, category, data, asset=None):
+        total_gross_amount = 0.0
+        for field in ['amount_already_depreciated','next_period_depreciation']:
+            if not asset:
+                total_gross_amount += self._total_amounts(category, data, field)
+            else:
+                total_gross_amount += self._get_amounts(asset, field)
+        return total_gross_amount
+    
 class report_fardisposals(osv.AbstractModel):
     _name = 'report.addsol_cnx_asset.report_fardisposals'
     _inherit = 'report.abstract_report'

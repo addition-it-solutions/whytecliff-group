@@ -118,20 +118,6 @@
                 </div>
             </div>
        	<div class="row">
-            <div t-if="o.type != 'out_refund'" class="col-xs-12">
-            <br><strong>Our Bank Account :</strong> Beneficiary Name: Whytecliff Group Limited</br>
-<br>                                   Beneficiary Bank: : HSBC Hong Kong, 1 Queens Road Central</br>          	                                 
-<br>                                   Account Nr: 112-455837-838</br>
-<br>                                   SWIFT: HSBCHKHHHKH</br>
- 
-             <p/><strong>Other Payment Methods :</strong>
-              <br>1) Cash Payment: Pay cash in any Whytecliff Group Ltd office.</br>
-              <br>2) Check by Mail: Send a crossed USD cheque, payable to Whytecliff Group Ltd.</br>
-              <br>3) Paypal* Payment: Send payments to paypal@whytecliff.com</br>
-              <br>4) Credit Card Payment Gateway: http://whytecliff.com/payment.</br>
-               <p/><p>Note that all payments by Paypal or credit card will incur a 3.5% handling fee.</p>
-            <p>  </p>
-       	     </div>
         	<p t-if="o.comment">
                 <strong>Comment:</strong>
                 <span t-field="o.comment"/>
@@ -148,8 +134,18 @@
     	</div>
 
         <div t-if="o.type != 'out_refund'" class="page">
+            <div class="row">
+                <div class="col-xs-12" style="margin-top:650px; ">
+                        <p/><strong>Other Payment Methods :</strong>
+                      <br>1) Cash Payment: Pay cash in any Whytecliff Group Ltd office.</br>
+                      <br>2) Check by Mail: Send a crossed USD cheque, payable to Whytecliff Group Ltd.</br>
+                      <br>3) Paypal* Payment: Send payments to paypal@whytecliff.com</br>
+                      <br>4) Credit Card Payment Gateway: http://whytecliff.com/payment.</br>
+                       <p/><p>Note that all payments by Paypal or credit card will incur a 3.5% handling fee.</p>
+                </div>
+            </div>
             <div class="row mt32 mb32">
-                <div class="col-xs-6" style="margin-top:850px; border-top:1px dotted black;">
+                <div class="col-xs-6" style="border-top:1px dotted black;">
                     <p/><strong>EFT Payments To:</strong>
                     <div>
                         <strong>Bank Account:</strong> 112-455837-838     <strong>  SWIFT:</strong> HSBCHKHHHKH
@@ -159,7 +155,7 @@
                         <br><strong>Issued By:&#160;&#160;</strong><span t-field="o.user_id"/></br>
                     </div>
                 </div>
-                <div class="col-xs-6" style="margin-top:850px; border-top:1px dotted black;">
+                <div class="col-xs-6" style="border-top:1px dotted black;">
                     <p/><strong>Mail Payments To:</strong>
                     <div>
                         <div t-field="res_company.partner_id" 

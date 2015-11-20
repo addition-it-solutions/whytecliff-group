@@ -34,7 +34,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th>Asset Name</th>
-                                <th>Asset Category</th>
+                                <th>Serial Number</th>
                                 <th>Asset Location</th>
                                 <th>Purchase Date</th>
                                 <th>Gross Value</th>
@@ -54,7 +54,7 @@
                             <t t-foreach="get_assets(o,data)" t-as="asset">
                                 <tr>
                                     <td><span t-esc="asset['name']"/></td>
-                                    <td><span t-esc="asset['category_id']['name']"/></td>
+                                    <td><span t-esc="asset['serial_number']"/></td>
                                     <td><span t-esc="asset['location']"/></td>
                                     <td><span t-esc="formatLang(asset['purchase_date'], date=True)"/></td>
                                     <td class="text-right"><span t-esc="asset['purchase_value']"/></td>

@@ -28,7 +28,6 @@ class asset_far_disposals_report(osv.osv_memory):
     def _print_report(self, cr, uid, ids, data, context=None):
         if context is None:
             context = {}
-        context['landscape'] = True
         return self.pool['report'].get_action(cr, uid, [], 'addsol_cnx_asset.report_fardisposals', data=data, context=context)
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

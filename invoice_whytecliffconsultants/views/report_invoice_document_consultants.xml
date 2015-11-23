@@ -134,7 +134,7 @@
             </div>
 
             <p style="page-break-before:always;"> </p>
-            <div t-if="o.type != 'out_refund'">
+            <div t-if="o.type != 'out_refund' and o.type != 'in_invoice'">
                 <div><p>&#160;&#160;</p></div>
                 <h2>Invoice <span t-field="o.number"/> currency payment methods</h2>
                 <p></p>
@@ -145,7 +145,7 @@
                     <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
                     <span t-if="o.type == 'out_refund'">Credit Note N#</span>
                     <span t-if="o.type == 'in_refund'">Supplier Credit Note N#</span>
-                    <span t-if="o.type == 'in_invoice'">Supplier Invoice N#</span>
+                    <!-- <span t-if="o.type == 'in_invoice'">Supplier Invoice N#</span> -->
                     <span t-field="o.number"/>
                 </h3>
      

@@ -51,7 +51,7 @@ class whytecliff_payment_form(models.Model):
                                  default=_default_company)
     amount_to_pay = fields.Float(string='Amount to be Paid', digits=dp.get_precision('Account'))
     bank_id = fields.Many2one('res.bank', string='Bank Name')
-    payment_method = fields.Many2one('account.payment.term', string='Payment Method')
+    payment_term_method = fields.Selection([('cc', 'CC'), ('tt', 'TT'), ('cash', 'Cash'), ('cheque', 'Cheque')], string='Payment Method', required=True)
     third_party_form = fields.Boolean(string='3rd Party Payment Form')
     employee_approval_id = fields.Many2one('res.partner', string='Employee Approval')
     line_manager_approval_id = fields.Many2one('res.partner', string='Line Manager Approval')

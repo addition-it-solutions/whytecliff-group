@@ -57,99 +57,103 @@
                 </div>      
             </t>
             <t t-call="report.external_layout">
-                <div class="page cliffpayment">
-                    <div class="col-xs-6">
-                        <h1 style="margin:1em 0 1em 0;">Payment Form</h1>
-                    </div>
-                    <div class="col-xs-6">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <h2>Payment Form</h2>
                     
-                    </div>
-                    <table width="100%"  class="table table-bordered" style="border:1px black solid; text-align:center">
-                      <tr>  
-                        <td width="20%">DATE</td>
-                        <td width="25%"><span t-field="o.date"></span></td>
-                        <td width="25%" class="allcaps" style="text-transform:uppercase;">PAYMENT DATE</td>
-                        <td width="30%"><span t-field="o.payment_date"></span></td>
-                      </tr>
+                    <table class="row mt32 mb32 table table-bordered text-center">
+                        <tr>
+                            <td class="col-xs-2"><strong>Date</strong></td>
+                            <td class="col-xs-2"><strong>Payment Date</strong></td>
+                            <td class="col-xs-2"><strong>Invoice Number</strong></td>
+                            <td class="col-xs-2"><strong>Purchase Order Number</strong></td>
+                            <td class="col-xs-2"><strong>Payment Code</strong></td>
+                            <td class="col-xs-2"><strong>Currency</strong></td>
+                        </tr>
+                        <tr>
+                           <td><p t-field="o.date"/></td>
+                           <td><p t-field="o.payment_date"/></td>
+                           <td><p t-field="o.invoice_id.number"/></td>
+                           <td><p t-field="o.purchase_id.name"/></td>
+                           <td><p t-field="o.payment_code"/></td>
+                           <td><p t-field="o.currency_id.name"/></td>
+                        </tr>
+                    </table>
+ 
+                    <table class="row mt32 mb32 table table-bordered text-center">
                       <tr>
-                        <td>VENDOR COMPANY NAME</td>
+                        <td>Vendor Company Name</td>
                         <td colspan="3"><span t-field="o.vendor_company_id.name"></span></td>
                       </tr>
                       <tr>
-                        <td>PROJECT</td>
+                        <td>Project</td>
                         <td colspan="3"><span t-field="o.project_name"></span></td>
                       </tr>
                       <tr>
-                        <td>INVOICE NUMBER</td>
-                        <td colspan="3"><span t-field="o.invoice_id.number"></span></td>
-                      </tr>
-                      <tr>
-                        <td>PURCHASE ORDER NUMBER</td>
-                        <td colspan="3"><span t-field="o.purchase_id.name"></span></td>
-                      </tr>
-                      <tr>
-                        <td>BALANCE/FULL PAYMENT</td>
+                        <td>Balance/Full Payment</td>
                         <td><input type="checkbox" checked="checked" t-if="o.deposit"/><input type="checkbox" value="" t-if="not o.deposit"/>
                         Deposit <br /> <input type="checkbox" checked="checked" t-if="o.balance" /><input type="checkbox" value="" t-if="not o.balance" />
                        Balance</td>
-                        <td class="allcaps" style="text-transform:uppercase;">PAYMENT CODE</td>
-                        <td><span t-field="o.payment_code"></span></td>
                       </tr>
                       <tr>
-                        <td>COMPANY NAME</td>
+                        <td>Company Name</td>
                         <td colspan="3"><span t-field="o.company_id.name"></span></td>
                       </tr>
                       <tr>
-                        <td>AMOUNT TO BE PAID</td>
+                        <td>Amount To Be Paid</td>
                         <td colspan="3"><span t-field="o.amount_to_pay"  t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'></span></td>
                       </tr>
                     </table>
                     <p></p>
-                    <table width="100%" class="table table-bordered" style="border:1px black solid;text-align:center">
+                    <table class="row mt32 mb32 table table-bordered text-center">
                       <tr>
-                        <td width="20%">BANK NAME</td>
+                        <td width="20%">Bank Name</td>
                         <td width="25%"><span t-field="o.bank_id.name"></span></td>
-                        <td width="25%" class="allcaps" style="text-transform:uppercase;">CHEQUE NUMBER</td>
+                        <td width="25%">Cheque Number</td>
                         <td width="30%"><span t-field="o.cheque_number"></span></td>
                       </tr>
                     </table>
                     <p></p>
-                    <table width="100%" class="table table-bordered" style="border:1px black solid; text-align:center">
+                    <table class="row mt32 mb32 table table-bordered text-center">
                       <tr>
-                        <td width="20%">PAYMENT METHOD</td>
-                        <td width="25%"><span t-field="o.payment_method.name"></span></td>
-                        <td width="25%" class="allcaps" style="text-transform:uppercase;">3rd PARTY PAYMENT FORM</td>
+                        <td width="20%">Payment Method</td>
+                        <td width="25%"><input type="checkbox" checked="checked" t-if="o.payment_term_method == 'cc'" /><input type="checkbox" value="" t-if="not o.payment_term_method == 'cc'" />
+                        CC <br/><input type="checkbox" checked="checked" t-if="o.payment_term_method == 'tt'" /><input type="checkbox" value="" t-if="not o.payment_term_method == 'tt'" />
+                        TT <br/><input type="checkbox" checked="checked" t-if="o.payment_term_method == 'cash'" /><input type="checkbox" value="" t-if="not o.payment_term_method == 'cash'" />
+                        Cash <br/><input type="checkbox" checked="checked" t-if="o.payment_term_method == 'cheque'" /><input type="checkbox" value="" t-if="not o.payment_term_method == 'cheque'" />
+                        Cheque <br/> </td>
+                        <td width="25%">3rd Party Payment Form</td>
                         <td><input type="checkbox" checked="checked" t-if="o.third_party_form" /><input type="checkbox" value="" t-if="not o.third_party_form" />
                        Completed</td>
                       </tr>
                     </table>
                     <p></p>
-                    <table width="100%" class="table table-bordered" style="border:1px black solid; text-align:center">
-                    <thead>
-                      <tr>
-                        <td>EMPLOYEE APPROVAL</td>
-                        <td>LINE MANAGER APPROVAL</td>
-                        <td>SENIOR MANAGER APPROVAL</td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="sign">
-                        <p>APPROVED BY:</p>
-                        <span t-field="o.employee_approval_id.name" />
-                        </td>
-                        <td class="sign">
-                        <p>APPROVED BY:</p>
-                        <span t-field="o.line_manager_approval_id.name" />
-                        </td>
-                        <td class="sign">
-                        <p>APPROVED BY:</p>
-                        <span t-field="o.senior_manager_approval_id.name" />
-                        </td>
-                      </tr>
-                    </tbody>
+                    <table class="row mt32 mb32 table table-bordered text-center">
+                        <thead>
+                          <tr>
+                            <td>Employee Approval</td>
+                            <td>Line Manager Approval</td>
+                            <td>Senior Manager Approval</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="sign">
+                            <p>Approved By:</p>
+                            <span t-field="o.employee_approval_id.name" />
+                            </td>
+                            <td class="sign">
+                            <p>Approved By:</p>
+                            <span t-field="o.line_manager_approval_id.name" />
+                            </td>
+                            <td class="sign">
+                            <p>Approved By:</p>
+                            <span t-field="o.senior_manager_approval_id.name" />
+                            </td>
+                          </tr>
+                        </tbody>
                     </table>
-                    </div>
+                </div>
             </t>
         </t>
     </template>

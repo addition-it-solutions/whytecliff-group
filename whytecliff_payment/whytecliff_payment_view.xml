@@ -48,7 +48,7 @@
                                     <field name="purchase_id"/>
                                     <field name="project_name"/>
                                     <field name="payment_code"/>
-                                    <field name="payment_method"/>
+                                    <field name="payment_term_method"/>
                                     <field name="amount_to_pay"/>
                                 </group>
                                 <group>

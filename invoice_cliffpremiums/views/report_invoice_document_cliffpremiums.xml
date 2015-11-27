@@ -39,17 +39,14 @@
                     <td class="col-xs-2"><strong>Invoice Date</strong></td>
                     <td class="col-xs-2"><strong>Due Date</strong></td>
                     <td class="col-xs-2"><strong>Currency</strong></td>
-                <!--    <td class="col-xs-2"><strong>Shipping Method</strong></td>-->
                     <td class="col-xs-2"><strong>Partner Ref.</strong></td>
                 </tr>
                 <tr>
-                   <!-- <td><p t-if="o.payment_term"> <span t-field="o.payment_term.name"/></p></td> -->
                    <td><p t-field="o.payment_term.name"/></td>
                    <td><p t-field="o.origin"/></td>
                    <td><p t-field="o.date_invoice"/></td>
                    <td><p t-field="o.date_due"/></td>
                    <td><p t-field="o.currency_id.name"/></td>
-                <!--   <td><p t-field="o.x_shipping_method"/></td>-->
                    <td><p t-field="o.name"/></td>
                 </tr>
             </table>
@@ -143,9 +140,7 @@
                     <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
                     <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
                     <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
-                    <span t-if="o.type == 'out_refund'">Credit Note N#</span>
                     <span t-if="o.type == 'in_refund'">Supplier Credit Note N#</span>
-                    <!-- <span t-if="o.type == 'in_invoice'">Supplier Invoice N#</span> -->
                     <span t-field="o.number"/>
                 </h3>
      

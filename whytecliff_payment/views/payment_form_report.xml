@@ -96,10 +96,6 @@
                        Balance</td>
                       </tr>
                       <tr>
-                        <td>Company Name</td>
-                        <td colspan="3"><span t-field="o.company_id.name"></span></td>
-                      </tr>
-                      <tr>
                         <td>Amount To Be Paid</td>
                         <td colspan="3"><span t-field="o.amount_to_pay"  t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'></span></td>
                       </tr>
@@ -116,13 +112,15 @@
                     <p></p>
                     <table class="row mt32 mb32 table table-bordered text-center">
                       <tr>
-                        <td width="20%">Payment Method</td>
-                        <td width="25%"><input type="checkbox" checked="checked" t-if="o.payment_term_method == 'cc'" /><input type="checkbox" value="" t-if="not o.payment_term_method == 'cc'" />
-                        CC <br/><input type="checkbox" checked="checked" t-if="o.payment_term_method == 'tt'" /><input type="checkbox" value="" t-if="not o.payment_term_method == 'tt'" />
-                        TT <br/><input type="checkbox" checked="checked" t-if="o.payment_term_method == 'cash'" /><input type="checkbox" value="" t-if="not o.payment_term_method == 'cash'" />
-                        Cash <br/><input type="checkbox" checked="checked" t-if="o.payment_term_method == 'cheque'" /><input type="checkbox" value="" t-if="not o.payment_term_method == 'cheque'" />
-                        Cheque <br/> </td>
-                        <td width="25%">3rd Party Payment Form</td>
+                        <td>Payment Method</td>
+                        <td><input type="checkbox" checked="checked" t-if="o.payment_term_method == 'cc'" /><input type="checkbox" value="" t-if="not o.payment_term_method == 'cc'" />
+                        &#160; CC &#160;&#160;&#160;&#160;<input type="checkbox" checked="checked" t-if="o.payment_term_method == 'tt'" /><input type="checkbox" value="" t-if="not o.payment_term_method == 'tt'" />
+                        &#160; TT &#160;&#160;&#160;&#160;<input type="checkbox" checked="checked" t-if="o.payment_term_method == 'cash'" /><input type="checkbox" value="" t-if="not o.payment_term_method == 'cash'" />
+                        &#160; Cash &#160;&#160;&#160;&#160;<input type="checkbox" checked="checked" t-if="o.payment_term_method == 'cheque'" /><input type="checkbox" value="" t-if="not o.payment_term_method == 'cheque'" />
+                        &#160; Cheque </td>
+                      </tr>
+                      <tr>
+                        <td>3rd Party Payment Form</td>
                         <td><input type="checkbox" checked="checked" t-if="o.third_party_form" /><input type="checkbox" value="" t-if="not o.third_party_form" />
                        Completed</td>
                       </tr>

@@ -11,7 +11,7 @@
                         <strong t-if="o.type == 'out_invoice'">Ship To:</strong>
                         <strong t-if="o.type == 'out_refund'">Issued To:</strong>
                         <div t-foreach="get_ship_to(o)" t-as="partner">
-                            <span t-esc="partner['name']"/> <br/>
+                            <span t-esc="partner['parent_id']['name']"/>, <span t-esc="partner['name']"/> <br/>
                             <t t-if="partner['street']"><span t-esc="partner['street']"/><br/></t> 
                             <t t-if="partner['street2']"><span t-esc="partner['street2']"/><br/></t>
                             <t t-if="partner['city']"><span t-esc="partner['city']"/></t> <t t-if="partner['state_id']"><span t-esc="partner['state_id']['name']"/></t> <t t-if="partner['zip']"> <span t-esc="partner['zip']"/></t>

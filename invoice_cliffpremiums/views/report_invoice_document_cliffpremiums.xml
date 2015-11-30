@@ -125,11 +125,11 @@
             </div>
             <div class="row">
                 <p t-if="o.comment">
-                    <strong>Comment:</strong>
+                    <strong><u>Notes:</u></strong>
                     <span t-field="o.comment"/>
                 </p>
                 <p t-if="o.payment_term.note">
-                    <strong>Payment Term:</strong>
+                    <strong>Payment Terms:</strong>
                   <span t-field="o.payment_term.note"/>
                 </p>
                 <p t-if="o.fiscal_position.note">

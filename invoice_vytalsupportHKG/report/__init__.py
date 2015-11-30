@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Copyright (C) 2015-2016 Whytecliff Group Pvt. Ltd.
+#    Copyright (C) 2015-2016 Whytecliff Group Pvt Ltd.
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,6 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import report
+import report_invoice_document_vytalHKG
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

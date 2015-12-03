@@ -40,8 +40,8 @@
                       <tr>
                         <td>Balance/Full Payment</td>
                         <td><input type="checkbox" checked="checked" t-if="o.deposit"/><input type="checkbox" value="" t-if="not o.deposit"/>
-                        Deposit <br /> <input type="checkbox" checked="checked" t-if="o.balance" /><input type="checkbox" value="" t-if="not o.balance" />
-                       Balance</td>
+                        &#160; Deposit &#160;&#160;&#160;&#160; <input type="checkbox" checked="checked" t-if="o.balance" /><input type="checkbox" value="" t-if="not o.balance" />
+                        &#160;Balance</td>
                       </tr>
                       <tr>
                         <td>Amount To Be Paid</td>
@@ -70,7 +70,7 @@
                       <tr>
                         <td>3rd Party Payment Form</td>
                         <td><input type="checkbox" checked="checked" t-if="o.third_party_form" /><input type="checkbox" value="" t-if="not o.third_party_form" />
-                       Completed</td>
+                        &#160; Completed</td>
                       </tr>
                     </table>
                     <p></p>

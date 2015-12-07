@@ -42,17 +42,17 @@
  
             <table class="row mt32 mb32 table table-bordered text-center">
                 <tr>
-                    <td class="col-xs-2"><strong>Payment Terms</strong></td>
                     <td class="col-xs-2"><strong>SO Number</strong></td>
                     <td class="col-xs-2"><strong>Invoice Date</strong></td>
+                    <td class="col-xs-2"><strong>Payment Terms</strong></td>
                     <td class="col-xs-2"><strong>Due Date</strong></td>
                     <td class="col-xs-2"><strong>Currency</strong></td>
                     <td class="col-xs-2"><strong>Partner Ref.</strong></td>
                 </tr>
                 <tr>
-                   <td><p t-field="o.payment_term.name"/></td>
                    <td><p t-field="o.origin"/></td>
                    <td><p t-field="o.date_invoice"/></td>
+                   <td><p t-field="o.payment_term.name"/></td>
                    <td><p t-field="o.date_due"/></td>
                    <td><p t-field="o.currency_id.name"/></td>
                    <td><p t-field="o.name"/></td>
@@ -154,17 +154,17 @@
      
                 <table class="row mt32 mb32 table table-bordered text-center">
                     <tr>
-                        <td class="col-xs-2"><strong>Payment Terms</strong></td>
                         <td class="col-xs-2"><strong>SO Number</strong></td>
                         <td class="col-xs-2"><strong>Invoice Date</strong></td>
+                        <td class="col-xs-2"><strong>Payment Terms</strong></td>
                         <td class="col-xs-2"><strong>Due Date</strong></td>
                         <td class="col-xs-2"><strong>Currency</strong></td>
                         <td class="col-xs-2"><strong>Partner Ref.</strong></td>
                     </tr>
                     <tr>
-                       <td><p t-field="o.payment_term.name"/></td>
                        <td><p t-field="o.origin"/></td>
                        <td><p t-field="o.date_invoice"/></td>
+                       <td><p t-field="o.payment_term.name"/></td>
                        <td><p t-field="o.date_due"/></td>
                        <td><p t-field="o.currency_id.name"/></td>
                        <td><p t-field="o.name"/></td>
@@ -172,12 +172,12 @@
                 </table>
                 <div class="row">
                     <div class="col-xs-12" style="margin-top:400px; ">
-                        <p/><strong>Other (<span t-field="o.currency_id.name"/>) Payment Methods :</strong>
+                      <p/><strong>Payment Methods:</strong>
                       <br>1) Cash (<span t-field="o.currency_id.name"/>) Payment: Pay cash in any Cliff Premiums Limited office.</br>
-                      <br>2) Check (<span t-field="o.currency_id.name"/>) by Mail: Send a crossed (<span t-field="o.currency_id.name"/>) cheque, payable to Cliff Premiums Limited.</br>
+                      <br>2) Cheque (HKD) by Mail: Send a crossed (HKD) cheque, payable to Cliff Premiums Limited.</br>
                       <br>3) Paypal* Payment: Send (<span t-field="o.currency_id.name"/>) payments to paypal@cliffpremiums.com</br>
                     
-                       <p/><p>Note that all payments by Paypal or credit card will incur a 3.5% handling fee.</p>
+                       <p/><p><strong>* Note that all payments by Paypal or credit card will incur a 3.5% handling fee.</strong></p>
                     </div>
                 </div>
                 <div class="row mt32 mb32">

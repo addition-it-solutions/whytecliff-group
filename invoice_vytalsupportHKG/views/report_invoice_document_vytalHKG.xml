@@ -2,6 +2,44 @@
 <openerp>
 <data>
 <template id="report_invoice_document_vytalHKG" inherit_id="account.report_invoice_document">
+    <xpath expr="//t[@t-call='report.external_layout']" position="before">
+        <t t-name="external_layout_footer" id="report.external_layout_footer">
+            <div class="footer">
+                <div class="text-center">
+                    <ul t-if="not res_company.custom_footer" class="list-inline">
+                        <li t-if="res_company.phone">Phone: <span t-field="res_company.phone"/></li>
+        
+                        <li t-if="res_company.fax and res_company.phone">&amp;bull;</li>
+                        <li t-if="res_company.fax">Fax: <span t-field="res_company.fax"/></li>
+        
+                        <li t-if="res_company.email">&amp;bull;</li>
+                        <li t-if="res_company.email">Email: <span t-field="res_company.email"/></li>
+        
+                        <li t-if="res_company.website">&amp;bull;</li>
+                        <li t-if="res_company.website">Website: <span t-field="res_company.website"/></li>
+                    </ul>
+        
+                    <t t-if="res_company.custom_footer">
+                        <ul style="list-style-type: none;">
+                            <li style="font-size: 10px;">Goods or services remain property of Vytal Support (Hong Kong) Ltd until the bill is settled in full. 
+                                                         Any disputes should be lodged within 7 days of 
+                                                         <span t-if="o.type in ['in_invoice','out_invoice']">invoice.</span>
+                                                         <span t-if="o.type == 'out_refund'">credit note.</span>
+                                                         <span t-if="o.type == 'in_refund'">supplier credit note.</span>
+                            </li>
+                            <li style="border-top: 1px solid black; width: 100%; border-bottom: 1px solid black; width: 100%;"><b>Phone:</b> +852 2148 4881 | <b>Fax:</b> +852 2148 4381 | <b>Email:</b> sales@vytalsupport.com | <b>Website:</b> www.vytalsupport.com </li>
+                        </ul>
+                    </t>
+                    <ul class="list-inline">
+                        <li>Page:</li>
+                        <li><span class="page"/></li>
+                        <li>/</li>
+                        <li><span class="topage"/></li>
+                    </ul>
+                </div>
+            </div>      
+        </t>
+    </xpath>
      <xpath expr="//div[@class='page']" position="replace">
     	<div class="page">
         	<div class="oe_structure"/>

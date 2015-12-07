@@ -35,6 +35,9 @@ Report Customization
     'depends': ['account'],
     'data': [
         'views/report_invoice_document_cliffpremiums.xml',
+        'views/report_saleorder.xml',
+        'views/report_purchasequotation.xml',
+        'views/report_purchaseorder.xml',
      ],
     'demo': [],
     'test': [],

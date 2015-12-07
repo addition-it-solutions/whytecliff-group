@@ -19,20 +19,21 @@
 #
 ##############################################################################
 {
-    'name': 'Accounting - Invoice Customizations',
+    'name': 'Report Layout Customizations',
     'version': '1.0',
     'author': 'Whytecliff Group Ltd.',
     'category': 'Accounting & Finance',
-    'summary': 'Customization Invoice Reports',
+    'summary': 'Customization of Reports',
     'website': 'https://www.whytecliffgroup.com',
     'description': """
 Report Customization
 ====================
-    * Account Invoice Report
+    * Modified Invoice, SO, RFQ/SO layouts
+    * Customized footer for all reports.
 
 """,
     'images': [],
-    'depends': ['account'],
+    'depends': ['sale','purchase'],
     'data': [
         'views/report_invoice_document_cliffpremiums.xml',
         'views/report_saleorder.xml',

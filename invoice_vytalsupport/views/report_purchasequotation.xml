@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 <data>
-<template id="report_purchasequotation_document_cliffpremiums" inherit_id="purchase.report_purchasequotation_document">
+<template id="report_purchasequotation_document_vytalsupport" inherit_id="purchase.report_purchasequotation_document">
     <xpath expr="//t[@t-call='report.external_layout']" position="before">
         <t t-name="external_layout_footer" id="report.external_layout_footer">
             <div class="footer">

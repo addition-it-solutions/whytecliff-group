@@ -80,7 +80,7 @@
             <field name="view_id" ref="view_payment_form_tree"/>
         </record>
 
-        <menuitem id="menu_payment_form" name="Payment Authorisation" parent="account.menu_finance" sequence="9" groups="account.group_account_invoice"/>
+        <menuitem id="menu_payment_form" name="Payment Authorisation" parent="account.menu_finance" sequence="3" groups="account.group_account_invoice"/>
         <menuitem action="action_payment_form_tree" id="menu_action_payment_form_tree" parent="menu_payment_form"/>
 
     </data>

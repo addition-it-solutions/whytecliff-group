@@ -242,5 +242,12 @@
         </div>
 	</xpath>
 </template>
+
+
+        <menuitem name="Customer Credit Notes" action="account.action_invoice_tree3" id="account.menu_action_invoice_tree3" parent="account.menu_finance_receivables"/>
+        <menuitem name="Supplier Credit Notes" action="account.action_invoice_tree4" id="account.menu_action_invoice_tree4" parent="account.menu_finance_payables"/>
+
+
+
 </data>
 </openerp>

@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    'name': 'Report Layout Customizations',
+    'name': 'Report Layouts - Cliffpremiums',
     'version': '1.0',
     'author': 'Whytecliff Group Ltd.',
     'category': 'Accounting & Finance',

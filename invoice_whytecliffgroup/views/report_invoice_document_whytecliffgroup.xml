@@ -109,7 +109,8 @@
                     <tr t-foreach="o.invoice_line" t-as="l">
                         <td><span t-field="l.name"/></td>
                         <td>
-                            <span t-field="l.quantity"/>
+                            <t t-if="l.uos_id.category_id.name == 'Unit'"> <span t-esc="formatLang(l.quantity, digits=0)"/></t>
+                            <t t-if="l.uos_id.category_id.name != 'Unit'"> <span t-field="l.quantity"/></t>
                             <span t-field="l.uos_id" groups="product.group_uom"/>
                         </td>
                         <td class="text-right">

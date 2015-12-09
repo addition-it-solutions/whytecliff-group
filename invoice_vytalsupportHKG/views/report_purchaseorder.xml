@@ -35,6 +35,10 @@
             </div>      
         </t>
     </xpath>
+    <xpath expr="//span[@t-field='line.product_qty']" position="replace">
+        <t t-if="line.product_uom.category_id.name == 'Unit'"> <span t-esc="int(float(line.product_qty))"/></t>
+        <t t-if="line.product_uom.category_id.name != 'Unit'"> <span t-field="line.product_qty"/></t>
+    </xpath>
 </template>
 </data>
 </openerp>

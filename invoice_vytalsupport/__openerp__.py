@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    'name': 'Report Layout Customizations',
+    'name': 'Report Layouts - Vytalsupport',
     'version': '1.0',
     'author': 'Whytecliff Group Ltd.',
     'category': 'Accounting & Finance',
@@ -35,7 +35,7 @@ Report Customization
     'images': [],
     'depends': ['sale','purchase'],
     'data': [
-        'views/report_invoice_document_cliffpremiums.xml',
+        'views/report_invoice_document_vytalsupport.xml',
         'views/report_saleorder.xml',
         'views/report_purchasequotation.xml',
         'views/report_purchaseorder.xml',

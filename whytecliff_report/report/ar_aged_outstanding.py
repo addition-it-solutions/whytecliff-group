@@ -135,21 +135,21 @@ class ar_aged_outstanding(report_sxw.rml_parse, common_report_header):
         for dates in starting_dates:
             for edates in ending_dates:
                 if dates.month == edates.month:
-                    date_intervals.append((dates.strftime('%Y-%m-%d'),edates.strftime('%Y-%m-%d'),dates.month))
+                    date_intervals.append((dates.strftime('%Y-%m-%d'),edates.strftime('%Y-%m-%d'),dates.strftime('%Y-%m')))
 
-        date_intervals.append((total_date_start,total_date_stop,int(total_date_stop[5:-3])))
-        current_month = current_date.month
+        date_intervals.append((total_date_start,total_date_stop,total_date_stop[:-3]))
+#         current_month = current_date.month
         for val in query_res:
             for date in date_intervals:
-                if date[2] == current_month:
+                if date[2] == current_date.strftime('%Y-%m'):
                     bal_type = 'current_balance'
-                if date[2] == current_month - 1:
+                if date[2] == (current_date + relativedelta(months=-1)).strftime('%Y-%m'):
                     bal_type = 'period_1'
-                if date[2] == current_month - 2:
+                if date[2] == (current_date + relativedelta(months=-2)).strftime('%Y-%m'):
                     bal_type = 'period_2'
-                if date[2] == current_month - 3:
+                if date[2] == (current_date + relativedelta(months=-3)).strftime('%Y-%m'):
                     bal_type = 'period_3'
-                if date[2] == current_month - 4:
+                if date[2] == (current_date + relativedelta(months=-4)).strftime('%Y-%m'):
                     bal_type = 'period_4'
                 self.cr.execute("""
                     select

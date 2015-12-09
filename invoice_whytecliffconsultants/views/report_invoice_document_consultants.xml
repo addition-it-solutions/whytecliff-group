@@ -24,8 +24,7 @@
                             <li style="font-size: 10px;">Goods or services remain property of Whytecliff Consultants Ltd until the bill is settled in full. 
                                                          Any disputes should be lodged within 7 days of 
                                                          <span t-if="o.type in ['in_invoice','out_invoice']">invoice.</span>
-                                                         <span t-if="o.type == 'out_refund'">credit note.</span>
-                                                         <span t-if="o.type == 'in_refund'">supplier credit note.</span>
+                                                         <span t-if="o.type in ['out_refund','in_refund']">credit note.</span>
                             </li>
                             <li style="border-top: 1px solid black; width: 100%; border-bottom: 1px solid black; width: 100%;"><b>Phone:</b> +852 2148 4881 | <b>Fax:</b> +852 2148 4381 | <b>Email:</b> consultants@whytecliff.com | <b>Website:</b> www.whytecliffconsultants.com </li>
                         </ul>

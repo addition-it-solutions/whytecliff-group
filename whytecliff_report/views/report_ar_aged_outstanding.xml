@@ -40,42 +40,44 @@
                     </thead>
                     <tbody>
                         <t t-foreach="get_currency()" t-as="currency">
-                            <tr style="font-weight: bold;">
-                                <td colspan="4">
-                                    Currency: <span t-esc="currency"/>
-                                </td>
-                            </tr>
-                            <tr t-foreach="lines(data,currency)" t-as="line">
-                                <td>
-                                    <span style="color: white;" t-esc="'..'"/>
-                                    <span t-esc="line.get('name')"/>
-                                </td>
-                                <td class="text-right">
-                                    <span t-esc="formatLang(line.get('residual'))"/>
-                                </td>
-                                <td class="text-right">
-                                    <span t-esc="formatLang(line.get('current_balance'))"/>
-                                </td>
-                                <td class="text-right">
-                                    <span t-esc="formatLang(line.get('period_1'))"/>
-                                </td>
-                                <td class="text-right">
-                                    <span t-esc="formatLang(line.get('period_2'))"/>
-                                </td>
-                                <td class="text-right">
-                                    <span t-esc="formatLang(line.get('period_3'))"/>
-                                </td>
-                                <td class="text-right">
-                                    <span t-esc="formatLang(line.get('period_4'))"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <t t-set="style" t-value="'font-weight: bold;'"/>
-                                <td class="text-right" t-att-style="style"><span t-att-style="style" t-esc="currency"/> Due:</td>
-                                <td class="text-right" t-foreach="get_total_balance(data,currency)" t-as="val">
-                                    <span t-att-style="style" t-esc="formatLang(val)"/>
-                                </td>
-                            </tr>
+                            <t t-if="get_total_balance(data,currency)">
+                                <tr style="font-weight: bold;">
+                                    <td colspan="4">
+                                        Currency: <span t-esc="currency"/>
+                                    </td>
+                                </tr>
+                                <tr t-foreach="lines(data,currency)" t-as="line">
+                                    <td>
+                                        <span style="color: white;" t-esc="'..'"/>
+                                        <span t-esc="line.get('name')"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="formatLang(line.get('residual'))"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="formatLang(line.get('current_balance'))"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="formatLang(line.get('period_1'))"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="formatLang(line.get('period_2'))"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="formatLang(line.get('period_3'))"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="formatLang(line.get('period_4'))"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <t t-set="style" t-value="'font-weight: bold;'"/>
+                                    <td class="text-right" t-att-style="style"><span t-att-style="style" t-esc="currency"/> Due:</td>
+                                    <td class="text-right" t-foreach="get_total_balance(data,currency)" t-as="val">
+                                        <span t-att-style="style" t-esc="formatLang(val)"/>
+                                    </td>
+                                </tr>
+                            </t>
                         </t>
                     </tbody>
                 </table>

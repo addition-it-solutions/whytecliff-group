@@ -90,6 +90,8 @@ class ar_aged_outstanding(report_sxw.rml_parse, common_report_header):
             total_period_3 += data['period_3']
             total_period_4 += data['period_4']
         result = [total_residual,total_current,total_period_1,total_period_2,total_period_3,total_period_4]
+        if not any(result):
+            return []
         return result
     
     def lines(self, data, currency):

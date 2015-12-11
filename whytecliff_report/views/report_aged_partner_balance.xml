@@ -60,12 +60,12 @@
                     </tr>
                     <tr t-if="get_lines(data['form']) or get_lines_with_out_partner(data['form'])">
                         <th>Account Total</th>
-                        <th class="text-right"></th>
-                        <th class="text-right"></th>
-                        <th class="text-right"></th>
-                        <th class="text-right"></th>
-                        <th class="text-right"></th>
-                        <th class="text-right"></th>
+                        <th class="text-right"><span t-esc="formatLang(get_direction(6), currency_obj=res_company.currency_id)"/></th>
+                        <th class="text-right"><span t-esc="formatLang(get_for_period(4), currency_obj=res_company.currency_id)"/></th>
+                        <th class="text-right"><span t-esc="formatLang(get_for_period(3), currency_obj=res_company.currency_id)"/></th>
+                        <th class="text-right"><span t-esc="formatLang(get_for_period(2), currency_obj=res_company.currency_id)"/></th>
+                        <th class="text-right"><span t-esc="formatLang(get_for_period(1), currency_obj=res_company.currency_id)"/></th>
+                        <th class="text-right"><span t-esc="formatLang(get_for_period(0), currency_obj=res_company.currency_id)"/></th>
                         <th class="text-right"><span t-esc="formatLang(get_for_period(5), currency_obj=res_company.currency_id)"/></th>
                     </tr>
                 </thead>

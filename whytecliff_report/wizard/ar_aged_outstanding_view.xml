@@ -3,7 +3,7 @@
     <data>
 
         <record id="whytec_aged_outstanding_view" model="ir.ui.view">
-            <field name="name">Aged Outstanding</field>
+            <field name="name">Aged Partners Listing in Invoice Currency</field>
             <field name="model">ar.aged.outstanding.report</field>
             <field name="inherit_id" ref="account.account_common_report_view" />
             <field name="arch" type="xml">
@@ -17,8 +17,25 @@
             </field>
         </record>
 
+        <record id="account_aged_balance_view_whytec" model="ir.ui.view">
+            <field name="name">Aged Partners Listing in Local Currency</field>
+            <field name="model">account.aged.trial.balance</field>
+            <field name="inherit_id" ref="account.account_aged_balance_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/separator[@string='Aged Partner Balance']" position="attributes">
+                    <attribute name="string">Aged Partners Listing in Local Currency</attribute>
+                </xpath>
+                <xpath expr="//form/label" position="attributes">
+                    <attribute name="string">Aged Partners Listing in Local Currency is a more detailed report of your receivables by intervals. When opening that report, Odoo asks for the name of the company, the fiscal period and the size of the interval to be analyzed (in days). Odoo then calculates a table of credit balance by period. So if you request an interval of 30 days Odoo generates an analysis of creditors for the past month, past two months, and so on.</attribute>
+                </xpath>
+                <field name="date_from" position="replace">
+                    <field name="date_from" string="As at Date"/>
+                </field>
+            </field>
+        </record>
+
         <record id="action_ar_aged_outstanding_report_view" model="ir.actions.act_window">
-            <field name="name">AR/AP Aged Outstanding</field>
+            <field name="name">Aged Partners Listing in Invoice Currency</field>
             <field name="res_model">ar.aged.outstanding.report</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
@@ -26,12 +43,30 @@
             <field name="target">new</field>
         </record>
 
+        <record id="account.action_account_aged_balance_view" model="ir.actions.act_window">
+             <field name="name">Aged Partners Listing in Local Currency</field>
+             <field name="res_model">account.aged.trial.balance</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">tree,form</field>
+             <field name="view_id" ref="account.account_aged_balance_view"/>
+             <field name="context">{}</field>
+             <field name="target">new</field>
+        </record>
+
+        <menuitem 
+            name="Aged Partners Listing in Local Currency"
+            action="account.action_account_aged_balance_view"
+            id="account.menu_aged_trial_balance"
+            parent="account.next_id_22"
+            sequence="10"/>
 
         <menuitem
-                name="AR/AP Aged Outstanding"
-                parent="account.final_accounting_reports"
+                name="Aged Partners Listing in Invoice Currency"
+                parent="account.next_id_22"
                 action="action_ar_aged_outstanding_report_view"
                 id="menu_ar_aged_outstanding_report_view"
+                sequence="13"
                />
 
     </data>

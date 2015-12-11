@@ -1,80 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 <data>
-<template id="report_netbalance">
-    <t t-call="report.html_container">
-        <t t-call="report.internal_layout">
-            <div class="page">
-                <h3>Aged Summary - Net Receivables &amp; Payables - In Local Currency By Organization as at 
-                    <span t-esc="datetime.datetime.now().strftime('%Y%m')"/> </h3>
-                <div class="row mt32 mb32">
-                    <div class="col-xs-3">
-                        <strong>Chart of Accounts:</strong>
-                        <p t-esc="get_account(data)"/>
-                    </div>
-                    <div class="col-xs-3">
-                        <strong>Fiscal Year:</strong>
-                        <p t-esc="get_fiscalyear(data)"/>
-                    </div>
-                    <div class="col-xs-3">
-                        <strong>Local Currency:</strong>
-                        <p t-esc="res_company.currency_id.name"/>
-                    </div>
-                </div>
+<template id="report_agedpartnerbalance_inherit" inherit_id="account.report_agedpartnerbalance">
+    <xpath expr="//div[@class='page']" position="replace">
+        <div class="page">
+            <h2>
+               <span t-if="data['form']['result_selection'] == 'customer'">Aged Summary - Receivable Totals by Organization - In Local Currency as at <span t-esc="formatLang(data['form']['date_from'], date=True)"/> </span>
+               <span t-if="data['form']['result_selection'] == 'supplier'">Aged Summary - Payable Totals by Organization - In Local Currency as at <span t-esc="formatLang(data['form']['date_from'], date=True)"/> </span>
+               <span t-if="data['form']['result_selection'] == 'customer_supplier'">Aged Summary - Receivable and Payable Totals by Organization - In Local Currency as at <span t-esc="formatLang(data['form']['date_from'], date=True)"/> </span>
+            </h2>
 
-                <table class="table table-condensed">
-                    <thead>
-                        <tr>
-                            <th>Organization Name</th>
-                            <th class="text-right">Net Receivable / (Net Payable)</th>
-                            <th class="text-right">Current</th>
-                            <th class="text-right">Period 1</th>
-                            <th class="text-right">Period 2</th>
-                            <th class="text-right">Period 3+</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <t t-foreach="get_org_type()" t-as="a">
-                            <tr style="font-weight: bold;">
-                                <td colspan="4">
-                                    <span t-if="a == 'receivable'">Receivables</span>
-                                    <span t-if="a == 'payable'">Payables</span>
-                                </td>
-                            </tr>
-                            <tr t-foreach="lines(data,a)" t-as="line">
-                                <td>
-                                    <span style="color: white;" t-esc="'..'"/>
-                                    <span t-esc="line.get('name')"/>
-                                </td>
-                                <td class="text-right">
-                                    <span t-esc="formatLang(line.get('sum_net_balance'))"/>
-                                </td>
-                                <td class="text-right">
-                                    <span t-esc="formatLang(line.get('current_balance'))"/>
-                                </td>
-                                <td class="text-right">
-                                    <span t-esc="formatLang(line.get('period_1'))"/>
-                                </td>
-                                <td class="text-right">
-                                    <span t-esc="formatLang(line.get('period_2'))"/>
-                                </td>
-                                <td class="text-right">
-                                    <span t-esc="formatLang(line.get('period_3'))"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <t t-set="style" t-value="'font-weight: bold;'"/>
-                                <td class="text-right" t-att-style="style">Total:</td>
-                                <td class="text-right" t-foreach="get_total_balance(data,a)" t-as="val">
-                                    <span t-att-style="style" t-esc="formatLang(val)"/>
-                                </td>
-                            </tr>
-                        </t>
-                    </tbody>
-                </table>
+            <div class="row mt32">
+                <div class="col-xs-3">
+                    <strong>Chart of Accounts:</strong>
+                    <p t-esc="get_account(data)"/>
+                </div>
+                <div class="col-xs-3">
+                    <strong>As at Date:</strong>
+                    <p t-esc="formatLang(data['form']['date_from'], date=True)"/>
+                </div>
+                <div class="col-xs-3">
+                    <strong>Period Length (days)</strong>
+                    <p t-esc="data['form']['period_length']"/>
+                </div>
             </div>
-        </t>
-    </t>
+            <div class="row mb32">
+                <div class="col-xs-3">
+                    <strong>Partner's:</strong>
+                    <p>
+                        <span t-if="data['form']['result_selection'] == 'customer'">Receivable Accounts</span>
+                        <span t-if="data['form']['result_selection'] == 'supplier'">Payable Accounts</span>
+                        <span t-if="data['form']['result_selection'] == 'customer_supplier'">Receivable and Payable Accounts</span>
+                    </p>
+                </div>
+                <div class="col-xs-3">
+                    <strong>Analysis Direction:</strong>
+                    <p t-esc="data['form']['direction_selection']"/>
+                </div>
+                <div class="col-xs-3">
+                    <strong>Target Moves:</strong>
+                    <p t-esc="get_target_move(data)"/>
+                </div>
+            </div>
+
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Partners</th>
+                        <th class="text-right">
+                            <span t-if="data['form']['direction_selection'] == 'future'">Due</span>
+                            <span t-if="data['form']['direction_selection'] != 'future'">Not due</span>
+                        </th>
+                        <th class="text-right">Current</th>
+                        <th class="text-right">Period 1</th>
+                        <th class="text-right">Period 2</th>
+                        <th class="text-right">Period 3</th>
+                        <th class="text-right">Period 3+</th>
+                        <th class="text-right">Total</th>
+                    </tr>
+                    <tr t-if="get_lines(data['form']) or get_lines_with_out_partner(data['form'])">
+                        <th>Account Total</th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"></th>
+                        <th class="text-right"><span t-esc="formatLang(get_for_period(5), currency_obj=res_company.currency_id)"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="get_lines(data['form'])" t-as="partner">
+                        <t t-if="partner['total'] != 0.0">
+                            <td>
+                                <span t-esc="partner['name']"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(partner['direction'], currency_obj=res_company.currency_id)"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(partner['4'], currency_obj=res_company.currency_id)"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(partner['3'], currency_obj=res_company.currency_id)"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(partner['2'], currency_obj=res_company.currency_id)"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(partner['1'], currency_obj=res_company.currency_id)"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(partner['0'], currency_obj=res_company.currency_id)"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(partner['total'], currency_obj=res_company.currency_id)"/>
+                            </td>
+                        </t>
+                    </tr>
+                    <tr t-foreach="get_lines_with_out_partner(data['form'])" t-as="not_partner">
+                        <t t-if="not_partner['total'] != 0.0">
+                            <td>
+                                <span t-esc="not_partner['name']"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(not_partner['direction'], currency_obj=res_company.currency_id)"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(not_partner['4'], currency_obj=res_company.currency_id)"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(not_partner['3'], currency_obj=res_company.currency_id)"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(not_partner['2'], currency_obj=res_company.currency_id)"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(not_partner['1'], currency_obj=res_company.currency_id)"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(not_partner['0'], currency_obj=res_company.currency_id)"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="formatLang(not_partner['total'], currency_obj=res_company.currency_id)"/>
+                            </td>
+                        </t>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </xpath>
 </template>
 </data>
 </openerp>

@@ -5,9 +5,10 @@
     <xpath expr="//div[@class='page']" position="replace">
         <div class="page">
             <h2>
-               <span t-if="data['form']['result_selection'] == 'customer'">Aged Summary - Receivable Totals by Organization - In Local Currency as at <span t-esc="formatLang(data['form']['date_from'], date=True)"/> </span>
-               <span t-if="data['form']['result_selection'] == 'supplier'">Aged Summary - Payable Totals by Organization - In Local Currency as at <span t-esc="formatLang(data['form']['date_from'], date=True)"/> </span>
-               <span t-if="data['form']['result_selection'] == 'customer_supplier'">Aged Summary - Receivable and Payable Totals by Organization - In Local Currency as at <span t-esc="formatLang(data['form']['date_from'], date=True)"/> </span>
+               <span t-if="data['form']['result_selection'] == 'customer'">Aged Summary - Receivable Totals by Organization - In Local Currency as at </span>
+               <span t-if="data['form']['result_selection'] == 'supplier'">Aged Summary - Payable Totals by Organization - In Local Currency as at </span>
+               <span t-if="data['form']['result_selection'] == 'customer_supplier'">Aged Summary - Receivable and Payable Totals by Organization - In Local Currency as at </span>
+                <span t-esc="get_period(data)"/>
             </h2>
 
             <div class="row mt32">
@@ -16,8 +17,12 @@
                     <p t-esc="get_account(data)"/>
                 </div>
                 <div class="col-xs-3">
-                    <strong>As at Date:</strong>
-                    <p t-esc="formatLang(data['form']['date_from'], date=True)"/>
+                    <strong>Fiscal Year:</strong>
+                    <p t-esc="get_fiscalyear(data)"/>
+                </div>
+                <div class="col-xs-3">
+                    <strong>As at Period:</strong>
+                    <p t-esc="get_period(data)"/>
                 </div>
                 <div class="col-xs-3">
                     <strong>Period Length (days)</strong>

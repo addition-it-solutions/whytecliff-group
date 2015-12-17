@@ -5,10 +5,10 @@
     <xpath expr="//div[@class='page']" position="replace">
         <div class="page">
             <h2>
-               <span t-if="data['form']['result_selection'] == 'customer'">Aged Summary - Receivable Totals by Organization - In Local Currency as at </span>
-               <span t-if="data['form']['result_selection'] == 'supplier'">Aged Summary - Payable Totals by Organization - In Local Currency as at </span>
-               <span t-if="data['form']['result_selection'] == 'customer_supplier'">Aged Summary - Receivable and Payable Totals by Organization - In Local Currency as at </span>
-                <span t-esc="get_period(data)"/>
+               <span t-if="data['form']['result_selection'] == 'customer'">Aged Summary - Receivable Totals by Organization - In Local Currency </span>
+               <span t-if="data['form']['result_selection'] == 'supplier'">Aged Summary - Payable Totals by Organization - In Local Currency </span>
+               <span t-if="data['form']['result_selection'] == 'customer_supplier'">Aged Summary - Receivable and Payable Totals by Organization - In Local Currency </span>
+               <t t-if="data['form']['filter'] == 'filter_no'">as at <span t-esc="get_period(data)"/></t>
             </h2>
 
             <div class="row mt32">
@@ -20,13 +20,25 @@
                     <strong>Fiscal Year:</strong>
                     <p t-esc="get_fiscalyear(data)"/>
                 </div>
-                <div class="col-xs-3">
+                <div t-if="data['form']['filter'] == 'filter_no'" class="col-xs-3">
                     <strong>As at Period:</strong>
                     <p t-esc="get_period(data)"/>
                 </div>
                 <div class="col-xs-3">
-                    <strong>Period Length (days)</strong>
-                    <p t-esc="data['form']['period_length']"/>
+                    <strong>Filter By:</strong>
+                    <p>
+                        <span t-if="data['form']['filter'] == 'filter_no'">Not filtered</span>
+                        <span t-if="data['form']['filter'] == 'filter_period'">Filtered by period</span>
+                        <span t-if="data['form']['filter'] == 'filter_date'">Filtered by date</span>
+                        <p t-if="data['form']['filter'] == 'filter_period'">
+                            Start Period: <span t-esc="get_start_period(data)"/>
+                            End Period: <span t-esc="get_end_period(data)"/>
+                        </p>
+                        <p t-if="data['form']['filter'] == 'filter_date'">
+                            Date from : <span t-esc="formatLang(get_start_date(data), date=True)"/><br />
+                            Date to : <span t-esc="formatLang(get_end_date(data), date=True)"/>
+                        </p>
+                    </p>
                 </div>
             </div>
             <div class="row mb32">
@@ -63,7 +75,7 @@
                         <th class="text-right">Period 3+</th>
                         <th class="text-right">Total</th>
                     </tr>
-                    <tr t-if="get_lines(data['form']) or get_lines_with_out_partner(data['form'])">
+                    <tr t-if="get_lines(data['form'])">
                         <th>Account Total</th>
                         <th class="text-right"><span t-esc="formatLang(get_direction(6), currency_obj=res_company.currency_id)"/></th>
                         <th class="text-right"><span t-esc="formatLang(get_for_period(4), currency_obj=res_company.currency_id)"/></th>

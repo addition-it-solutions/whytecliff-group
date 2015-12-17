@@ -17,27 +17,18 @@
             </field>
         </record>
 
-        <record id="account_aged_balance_view_whytec" model="ir.ui.view">
-            <field name="name">Aged Partners Listing in Local Currency</field>
+        <record id="account.account_aged_balance_view" model="ir.ui.view">
+            <field name="name">Aged Partner Balance</field>
             <field name="model">account.aged.trial.balance</field>
-            <field name="inherit_id" ref="account.account_aged_balance_view" />
+            <field name="inherit_id" ref="account.account_common_report_view" />
             <field name="arch" type="xml">
-                <xpath expr="//form/separator[@string='Aged Partner Balance']" position="attributes">
-                    <attribute name="string">Aged Partners Listing in Local Currency</attribute>
-                </xpath>
-                <xpath expr="//form/label" position="attributes">
-                    <attribute name="string">Aged Partners Listing in Local Currency is a more detailed report of your receivables by intervals. When opening that report, Odoo asks for the name of the company, the fiscal period and the size of the interval to be analyzed (in days). Odoo then calculates a table of credit balance by period. So if you request an interval of 30 days Odoo generates an analysis of creditors for the past month, past two months, and so on.</attribute>
-                </xpath>
-                <field name="fiscalyear_id" position="attributes">
-                    <attribute name="invisible">0</attribute>
-                </field>
-                <field name="result_selection" position="before">
+                <field name="target_move" position="after">
                     <field name="period_id"/>
+                    <field name="result_selection"/>
+                    <field name="direction_selection"/>
                 </field>
-                <field name="date_from" position="replace">
-                </field>
-                <field name="period_length" position="replace">
-                </field>
+                <page name="journal_ids" position="replace">
+                </page>
             </field>
         </record>
 

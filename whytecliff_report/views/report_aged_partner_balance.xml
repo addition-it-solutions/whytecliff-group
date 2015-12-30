@@ -88,7 +88,7 @@
                 </thead>
                 <tbody>
                     <tr t-foreach="get_lines(data['form'])" t-as="partner">
-                        <t t-if="partner['total'] != 0.0">
+                        <t t-if="partner['total'] != 0.0 or partner['4'] != 0.0 or partner['3'] != 0.0 or partner['2'] != 0.0 or partner['1'] != 0.0 or partner['0'] != 0.0">
                             <td>
                                 <span t-esc="partner['name']"/>
                             </td>
@@ -116,7 +116,7 @@
                         </t>
                     </tr>
                     <tr t-foreach="get_lines_with_out_partner(data['form'])" t-as="not_partner">
-                        <t t-if="not_partner['total'] != 0.0">
+                        <t t-if="not_partner['total'] != 0.0 or not_partner['4'] != 0.0 or not_partner['3'] != 0.0 or not_partner['2'] != 0.0 or not_partner['1'] != 0.0 or not_partner['0'] != 0.0">
                             <td>
                                 <span t-esc="not_partner['name']"/>
                             </td>

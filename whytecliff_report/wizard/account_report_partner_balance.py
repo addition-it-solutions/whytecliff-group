@@ -49,20 +49,20 @@ class whytec_account_aged_trial_balance(osv.osv_memory):
         elif data['form']['filter'] == 'filter_period':
             period_from = period_obj.browse(cr, uid, data['form']['period_from'], context=context)
             period_to = period_obj.browse(cr, uid, data['form']['period_to'], context=context)
-            start = datetime.strptime(period_from.date_start, "%Y-%m-%d")
-            stop = datetime.strptime(period_to.date_stop, "%Y-%m-%d")
+#             start = datetime.strptime(period_from.date_start, "%Y-%m-%d")
+            start = datetime.strptime(period_to.date_stop, "%Y-%m-%d")
             data['form']['date_from'] = period_to.date_stop
         elif data['form']['filter'] == 'filter_date':
-            start = datetime.strptime(data['form']['date_from'], "%Y-%m-%d")
-            stop = datetime.strptime(data['form']['date_to'], "%Y-%m-%d")
+#             start = datetime.strptime(data['form']['date_from'], "%Y-%m-%d")
+            start = datetime.strptime(data['form']['date_to'], "%Y-%m-%d")
             data['form']['date_from'] = str(data['form']['date_to'])
 
         if data['form']['direction_selection'] == 'past':
             for i in range(5)[::-1]:
-                if not stop:
-                    stop = start - relativedelta(days=period_length)
-                else:
-                    stop = stop - relativedelta(days=period_length)
+#                 if not stop:
+#                     stop = start - relativedelta(days=period_length)
+#                 else:
+                stop = start - relativedelta(days=period_length)
                 res[str(i)] = {
                     'name': (i!=0 and (str((5-(i+1)) * period_length) + '-' + str((5-i) * period_length)) or ('+'+str(4 * period_length))),
                     'stop': start.strftime('%Y-%m-%d'),
@@ -71,10 +71,10 @@ class whytec_account_aged_trial_balance(osv.osv_memory):
                 start = stop - relativedelta(days=1)
         else:
             for i in range(5):
-                if not stop:
-                    stop = start + relativedelta(days=period_length)
-                else:
-                    stop = stop + relativedelta(days=period_length)
+#                 if not stop:
+#                     stop = start + relativedelta(days=period_length)
+#                 else:
+                stop = start + relativedelta(days=period_length)
                 res[str(5-(i+1))] = {
                     'name': (i!=4 and str((i) * period_length)+'-' + str((i+1) * period_length) or ('+'+str(4 * period_length))),
                     'start': start.strftime('%Y-%m-%d'),

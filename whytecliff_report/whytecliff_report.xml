@@ -38,10 +38,10 @@
         <report 
             id="action_profit_loss_variacne" 
             model="report.profit.loss.variance" 
-            string="GL Profit and Loss"
+            string="General Ledger Profit and Loss"
             report_type="qweb-pdf"
-            name="whytecliff_report.report_profitlossvariance" 
-            file="whytecliff_report.report_profitlossvariance"
+            name="whytecliff_report.report_gl_profitloss" 
+            file="whytecliff_report.report_gl_profitloss"
             menu="False"
             auto="False"
         />

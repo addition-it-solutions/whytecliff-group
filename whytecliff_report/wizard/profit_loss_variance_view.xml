@@ -3,7 +3,7 @@
     <data>
 
         <record id="whytec_profit_loss_variance_report_view" model="ir.ui.view">
-            <field name="name">Profit and Loss Variance</field>
+            <field name="name">General Ledger Profit and Loss</field>
             <field name="model">profit.loss.variance.report</field>
             <field name="inherit_id" ref="account.account_common_report_view" />
             <field name="arch" type="xml">
@@ -17,7 +17,7 @@
         </record>
 
         <record id="action_whytec_profit_loss_variance_report_view" model="ir.actions.act_window">
-            <field name="name">Profit and Loss Variance</field>
+            <field name="name">General Ledger Profit and Loss</field>
             <field name="res_model">profit.loss.variance.report</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
@@ -27,7 +27,7 @@
 
 
         <menuitem
-                name="GL Profit and Loss"
+                name="General Ledger Profit and Loss"
                 parent="account.final_accounting_reports"
                 action="action_whytec_profit_loss_variance_report_view"
                 id="menu_whytec_profit_loss_variance_report_view"

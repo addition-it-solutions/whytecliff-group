@@ -41,4 +41,4 @@ class profit_loss_variance_report(osv.osv_memory):
         if not context:
             context = {}
 #         context['landscape'] = True
-        return self.pool['report'].get_action(cr, uid, [], 'whytecliff_report.report_profitlossvariance', data=data, context=context)
+        return self.pool['report'].get_action(cr, uid, [], 'whytecliff_report.report_gl_profitloss', data=data, context=context)

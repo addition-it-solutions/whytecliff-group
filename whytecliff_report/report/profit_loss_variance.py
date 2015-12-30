@@ -171,7 +171,7 @@ class profit_loss_variance(report_sxw.rml_parse, common_report_header):
         return self.result_acc
 
 class report_profitlossvariance(osv.AbstractModel):
-    _name = 'report.whytecliff_report.report_profitlossvariance'
+    _name = 'report.whytecliff_report.report_gl_profitloss'
     _inherit = 'report.abstract_report'
-    _template = 'whytecliff_report.report_profitlossvariance'
+    _template = 'whytecliff_report.report_gl_profitloss'
     _wrapped_report_class = profit_loss_variance

@@ -44,7 +44,10 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
             'get_total_balance': self._get_total_balance,
             'get_total': self._get_total,
             'cols': self.cols,
+            'compute_gross_profit_loss': self._compute_gross_profit_loss,
+            'compute_net_profit_loss': self._compute_net_profit_loss,
         })
+        self.gross_profit = {}
         self.context = context
 
     def set_context(self, objects, data, ids, report_type=None):
@@ -101,8 +104,8 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
                         AND '+ query +' '
                         ,(account_id, tuple(move_state)))
                 sum_balance = self.cr.fetchone()[0] or 0.0
-                if report_type == 'expense' and sum_balance != 0.0:
-                    sum_balance = sum_balance * -1
+#                 if report_type == 'expense' and sum_balance != 0.0:
+#                     sum_balance = sum_balance * -1
             result.append(sum_balance)
         return result
 
@@ -111,14 +114,14 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
         account_obj = self.pool.get('account.account')
         account = account_obj.browse(self.cr, self.uid, account_id, context=self.context)
         if account.level == 1:
-            if account.user_type.report_type == 'expense':
-                return account.balance * -1
+#             if account.user_type.report_type == 'expense':
+#                 return account.balance * -1
             return account.balance
         result = self._get_columns_data(account_id, data)
         for bal in result:
             balance += bal
-        if account.user_type.report_type == 'expense':
-            balance = balance * -1
+#         if account.user_type.report_type == 'expense':
+#             balance = balance * -1
         return balance
     
     def get_reports(self, data):
@@ -164,7 +167,8 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
                         'level': report.display_detail == 'detail_with_hierarchy' and min(account.level + 1,6) or 6, #account.level + 1
                         'account_type': account.type,
                         'account_id': account.id,
-                        'report_type': account.user_type.report_type
+                        'report_type': account.user_type.report_type,
+                        'report_name': report.name,
                     }
                     lines.append(vals)
         return lines
@@ -185,11 +189,36 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
                 account_id = line.get('account_id')
                 ctx.update({'period_from': period, 'period_to': period})
                 account = account_obj.browse(self.cr, self.uid, account_id, context=ctx)
+                total += account.balance
                 if account.level == 1:
                     total += account.balance
-                    if account.user_type.report_type == 'expense':
-                        total = total * -1
+#                     if account.user_type.report_type == 'expense':
+#                         total = total * -1
             result.append(total)
+#             if line.get('report_name') != 'Expense':
+            if not self.gross_profit: 
+                self.gross_profit.update({period: {line.get('report_name'): total}})
+            elif not self.gross_profit.has_key(period):
+                self.gross_profit[period] = {line.get('report_name'): total}
+            else:
+                self.gross_profit[period].update({line.get('report_name'): total})
+        return result
+    
+    def _compute_gross_profit_loss(self):
+        result = []
+        for k,v in self.gross_profit.items():
+            gross_profit = v.get('Income') + v.get('Other Income') - v.get('Cost of Sales')
+            v.update({'gross_profit': gross_profit})
+            self.gross_profit[k].update(v)
+            result.append(v)
+        return result
+    
+    def _compute_net_profit_loss(self):
+        result = []
+        for k,v in self.gross_profit.items():
+            net_profit = v.get('gross_profit') - v.get('Expense')
+            v.update({'net_profit': net_profit})
+            result.append(v)
         return result
 
 class report_profitloss(osv.AbstractModel):

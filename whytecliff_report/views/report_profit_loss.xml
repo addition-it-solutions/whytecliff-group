@@ -79,7 +79,21 @@
                                         <span t-att-style="style" t-esc="formatLang(val)"/>
                                     </td>
                                 </tr>
+                                <tr t-if="report.name == 'Cost of Sales'">
+                                    <t t-set="style" t-value="'font-weight: bold;'"/>
+                                    <td class="text-right" t-att-style="style">Gross Profit (Loss) :</td>
+                                    <td class="text-right" t-foreach="compute_gross_profit_loss()" t-as="val">
+                                        <span t-if="val.has_key('gross_profit')" t-att-style="style" t-esc="formatLang(val.get('gross_profit'))"/>
+                                    </td>
+                                </tr>
                             </t>
+                            <tr>
+                                <t t-set="style" t-value="'font-weight: bold;'"/>
+                                <td class="text-right" t-att-style="style">Total Net Profit (Loss) to Report :</td>
+                                <td class="text-right" t-foreach="compute_net_profit_loss()" t-as="val">
+                                    <span t-if="val.has_key('net_profit')" t-att-style="style" t-esc="formatLang(val.get('net_profit'))"/>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

@@ -22,8 +22,6 @@
 
 import time
 from datetime import datetime
-# from dateutil.relativedelta import relativedelta
-# from dateutil import rrule
 
 from openerp.osv import osv
 from openerp.report import report_sxw
@@ -32,23 +30,6 @@ from openerp.addons.account.report.common_report_header import common_report_hea
 
 class account_statement(report_sxw.rml_parse, common_report_header):
     _name = 'report.account.statement'
-
-#     def set_context(self, objects, data, ids, report_type=None):
-#         new_ids = ids
-#         obj_move = self.pool.get('account.move.line')
-#         self.query = obj_move._query_get(self.cr, self.uid, obj='l', context=data['form'].get('used_context',{}))
-#         ctx2 = data['form'].get('used_context',{}).copy()
-#         self.init_query = obj_move._query_get(self.cr, self.uid, obj='l', context=ctx2)
-#         self.target_move = data['form'].get('target_move', 'all')
-#         ctx = self.context.copy()
-#         ctx['fiscalyear'] = data['form']['fiscalyear_id']
-#         ctx['period_id'] = data['form']['period_id']
-#         ctx['state'] = data['form']['target_move']
-#         self.context.update(ctx)
-#         if (data['model'] == 'ir.ui.menu'):
-#             new_ids = [data['form']['chart_account_id']]
-#             objects = self.pool.get('account.account').browse(self.cr, self.uid, new_ids)
-#         return super(ar_aged_outstanding, self).set_context(objects, data, new_ids, report_type=report_type)
 
     def __init__(self, cr, uid, name, context=None):
         if context is None:
@@ -96,7 +77,6 @@ class account_statement(report_sxw.rml_parse, common_report_header):
         currency = self._get_currency(data)
         current_date = datetime.today()
         start_date = (current_date.replace(day=1)).strftime('%Y-%m-%d')
-#         end_date = start_date + relativedelta(day=31)
         self.cr.execute("""
             select inv.name, inv.number, inv.internal_number, inv.date_invoice, inv.date_due, inv.amount_total, inv.amount_untaxed, inv.residual
             from account_invoice inv

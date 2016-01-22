@@ -68,5 +68,16 @@
             auto="False"
         />
 
+        <report 
+            id="action_account_statement" 
+            model="report.account.statement" 
+            string="Statement of Account"
+            report_type="qweb-pdf"
+            name="whytecliff_report.report_accountstatement" 
+            file="whytecliff_report.report_accountstatement"
+            menu="False"
+            auto="False"
+        />
+
     </data>
 </openerp>

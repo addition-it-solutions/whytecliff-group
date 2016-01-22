@@ -68,7 +68,7 @@
                                         </td-->
                                     </t>
                                 </tr>
-                                <tr t-if="report.level != 0">
+                                <tr t-if="report.type != 'sum'">
                                     <t t-set="style" t-value="'font-weight: bold;'"/>
                                     <td class="text-right" t-att-style="style">Total <span t-att-style="style" t-esc="report.name"/> :</td>
                                     <td class="text-right" t-foreach="get_total(report,data)" t-as="val">

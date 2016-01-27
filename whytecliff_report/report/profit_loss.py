@@ -46,8 +46,11 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
             'cols': self.cols,
             'compute_gross_profit_loss': self._compute_gross_profit_loss,
             'compute_net_profit_loss': self._compute_net_profit_loss,
+            'compute_net_assets_liabilities': self._compute_net_assets_liabilities,
+            'compute_noncurrent_net_assets_liabilities': self._compute_noncurrent_net_assets_liabilities
         })
         self.gross_profit = {}
+        self.asset_liab = {}
         self.context = context
 
     def set_context(self, objects, data, ids, report_type=None):
@@ -218,6 +221,22 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
         for k,v in self.gross_profit.items():
             net_profit = v.get('gross_profit') - v.get('Expense')
             v.update({'net_profit': net_profit})
+            result.append(v)
+        return result
+    
+    def _compute_net_assets_liabilities(self):
+        result = []
+        for k,v in self.gross_profit.items():
+            net_value = v.get('Current Assets') - v.get('Liability')
+            v.update({'net_value': net_value})
+            result.append(v)
+        return result
+    
+    def _compute_noncurrent_net_assets_liabilities(self):
+        result = []
+        for k,v in self.gross_profit.items():
+            net_total = v.get('Non Current Assets') + v.get('net_value') - v.get('Non Current Liability')
+            v.update({'net_total': net_total})
             result.append(v)
         return result
 

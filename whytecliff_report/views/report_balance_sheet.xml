@@ -76,6 +76,21 @@
                                     </td>
                                 </tr>
                             </t>
+                            <tr>
+                                <t t-set="style" t-value="'font-weight: bold;'"/>
+                                <td class="text-right" t-att-style="style">Net Current Assets / Liabilities :</td>
+                                <td class="text-right" t-foreach="compute_net_assets_liabilities()" t-as="val">
+                                    <span t-if="val.has_key('net_value')" t-att-style="style" t-esc="formatLang(val.get('net_value'))"/>
+                                </td>
+                            </tr>
+                            <tr></tr>
+                            <tr>
+                                <t t-set="style" t-value="'font-weight: bold;'"/>
+                                <td class="text-right" t-att-style="style">Net Assets / Liabilities :</td>
+                                <td class="text-right" t-foreach="compute_noncurrent_net_assets_liabilities()" t-as="val">
+                                    <span t-if="val.has_key('net_total')" t-att-style="style" t-esc="formatLang(val.get('net_total'))"/>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

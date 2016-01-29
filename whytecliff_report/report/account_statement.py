@@ -63,13 +63,16 @@ class account_statement(report_sxw.rml_parse, common_report_header):
         currency = self._get_currency(data)
         current_date = datetime.today()
         start_date = (current_date.replace(day=1)).strftime('%Y-%m-%d')
+        partner = self._get_partner(data)
         self.cr.execute("""
-            select sum(inv.amount_total)
+            select sum(inv.residual)
             from account_invoice inv
             left join res_currency cur on cur.id=inv.currency_id
-            where date_invoice >= '%s' and date_invoice <= '%s'
+            where inv.residual > 0.0
             and cur.name = '%s'
-        """ %(start_date,current_date.strftime('%Y-%m-%d'),currency))
+            and inv.type = 'out_invoice'
+            and inv.partner_id = %s
+        """ %(currency, partner.id))
         result = self.cr.dictfetchall()[0]
         return result.get('sum',0.0)
     
@@ -77,14 +80,17 @@ class account_statement(report_sxw.rml_parse, common_report_header):
         currency = self._get_currency(data)
         current_date = datetime.today()
         start_date = (current_date.replace(day=1)).strftime('%Y-%m-%d')
+        partner = self._get_partner(data)
         self.cr.execute("""
             select inv.name, inv.number, inv.internal_number, inv.date_invoice, inv.date_due, inv.amount_total, inv.amount_untaxed, inv.residual
             from account_invoice inv
             left join res_currency cur on cur.id=inv.currency_id
-            where date_invoice >= '%s' and date_invoice <= '%s'
+            where inv.residual > 0.0
             and cur.name = '%s'
+            and inv.type = 'out_invoice'
+            and inv.partner_id = %s
             order by inv.id
-        """ %(start_date,current_date.strftime('%Y-%m-%d'),currency))
+        """ %(currency, partner.id))
         result = self.cr.dictfetchall()
         return result
 

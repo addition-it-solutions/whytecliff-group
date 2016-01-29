@@ -11,7 +11,7 @@
                     <div class="col-xs-6" style="margin-top:25px;">
                         <t>
                             <div t-foreach="get_partner(data)" t-as="partner">
-                                <span t-esc="partner['name']"/> <br/>
+                                <t t-if="partner['parent_id']"><span t-esc="partner['parent_id']['name']"/>,</t> <span t-esc="partner['name']"/> <br/>
                                 <t t-if="partner['street']"><span t-esc="partner['street']"/><br/></t> 
                                 <t t-if="partner['street2']"><span t-esc="partner['street2']"/><br/></t>
                                 <t t-if="partner['city']"><span t-esc="partner['city']"/></t> <t t-if="partner['state_id']"><span t-esc="partner['state_id']['name']"/></t> <t t-if="partner['zip']"> <span t-esc="partner['zip']"/></t>
@@ -22,11 +22,11 @@
                     </div>
                     <div class="col-xs-5 col-xs-offset-1" style="margin-top:25px;">
                         <t t-foreach="get_partner(data)" t-as="partner">
-                            <strong>ACCOUNT: </strong><span t-esc="partner['name']"/><br/>
+                            <strong>ACCOUNT: </strong><t t-if="partner['parent_id']"><span t-esc="partner['parent_id']['name']"/>,</t> <span t-esc="partner['name']"/><br/>
                             <strong>CURRENCY: </strong><span t-esc="get_currency(data)"/><br/> 
                             <strong>STANDARD TERMS: </strong><span t-esc="partner['property_payment_term']['name']"/><br/>
                             <strong>DISBURS. TERMS: </strong><span t-esc="partner['property_supplier_payment_term']['name']"/><br/>
-                            <strong>ITEMS LISTED TO: </strong><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/><br/>
+                            <strong>ITEMS LISTED TO: </strong><span t-esc="(datetime.datetime.now()).strftime('%d-%m-%Y')"/><br/>
                         </t>
                     </div>
                 </div>

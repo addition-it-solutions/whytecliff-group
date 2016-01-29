@@ -215,7 +215,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
     def _compute_gross_profit_loss(self):
         result = []
         for k,v in self.gross_profit.items():
-            gross_profit = v.get('Income') + v.get('Other Income') - v.get('Cost of Sales')
+            gross_profit = v.get('Income',0.0) + v.get('Other Income',0.0) - v.get('Cost of Sales',0.0)
             v.update({'gross_profit': gross_profit})
             self.gross_profit[k].update(v)
             result.append(v)
@@ -224,7 +224,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
     def _compute_net_profit_loss(self):
         result = []
         for k,v in self.gross_profit.items():
-            net_profit = v.get('gross_profit') - v.get('Expense')
+            net_profit = v.get('gross_profit') - v.get('Expense',0.0)
             v.update({'net_profit': net_profit})
             result.append(v)
         return result
@@ -232,7 +232,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
     def _results_to_carryforward(self):
         result = []
         for k,v in self.gross_profit.items():
-            carry_fwd = v.get('net_profit') - v.get('Profit and Loss Appropriation')
+            carry_fwd = v.get('net_profit') - v.get('Profit and Loss Appropriation',0.0)
             v.update({'carry_fwd': carry_fwd})
             result.append(v)
         return result
@@ -240,7 +240,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
     def _compute_net_assets_liabilities(self):
         result = []
         for k,v in self.gross_profit.items():
-            net_value = v.get('Current Assets') - v.get('Current Liability')
+            net_value = v.get('Current Assets',0.0) - v.get('Current Liability',0.0)
             v.update({'net_value': net_value})
             result.append(v)
         return result
@@ -248,7 +248,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
     def _compute_noncurrent_net_assets_liabilities(self):
         result = []
         for k,v in self.gross_profit.items():
-            net_total = v.get('Non Current Assets') + v.get('net_value') - v.get('Non Current Liability')
+            net_total = v.get('Non Current Assets',0.0) + v.get('net_value') - v.get('Non Current Liability',0.0)
             v.update({'net_total': net_total})
             result.append(v)
         return result

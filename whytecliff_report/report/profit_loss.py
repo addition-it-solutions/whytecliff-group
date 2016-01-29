@@ -47,10 +47,10 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
             'compute_gross_profit_loss': self._compute_gross_profit_loss,
             'compute_net_profit_loss': self._compute_net_profit_loss,
             'compute_net_assets_liabilities': self._compute_net_assets_liabilities,
-            'compute_noncurrent_net_assets_liabilities': self._compute_noncurrent_net_assets_liabilities
+            'compute_noncurrent_net_assets_liabilities': self._compute_noncurrent_net_assets_liabilities,
+            'results_to_carryforward': self._results_to_carryforward,
         })
         self.gross_profit = {}
-        self.asset_liab = {}
         self.context = context
 
     def set_context(self, objects, data, ids, report_type=None):
@@ -107,6 +107,9 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
                         AND '+ query +' '
                         ,(account_id, tuple(move_state)))
                 sum_balance = self.cr.fetchone()[0] or 0.0
+                account = self.pool.get('account.account').browse(self.cr, self.uid, account_id, context=ctx)
+                if not sum_balance and account.level == 1:
+                    sum_balance = account.balance
 #                 if report_type == 'expense' and sum_balance != 0.0:
 #                     sum_balance = sum_balance * -1
             result.append(sum_balance)
@@ -131,7 +134,7 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
         fin_report_obj = self.pool.get('account.financial.report')
         reports = []
         report_ids = fin_report_obj._get_children_by_order(self.cr, self.uid, [data['form']['account_report_id'][0]], context=self.context)
-        report_ids.sort()
+#         report_ids.sort()
         for report in fin_report_obj.browse(self.cr, self.uid, report_ids, context=self.context):
             reports.append(report)
         return reports
@@ -188,12 +191,14 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
         result = []
         for period in period_obj.search(self.cr, self.uid, [('id','>=',period_from), ('id','<=',period_to)]):
             total = 0.0
+            last_total = 0.0
             for line in lines:
                 account_id = line.get('account_id')
                 ctx.update({'period_from': period, 'period_to': period})
                 account = account_obj.browse(self.cr, self.uid, account_id, context=ctx)
-                total += account.balance
                 if account.level == 1:
+                    last_total += account.balance
+                else:
                     total += account.balance
 #                     if account.user_type.report_type == 'expense':
 #                         total = total * -1
@@ -224,10 +229,18 @@ class report_profit_loss(report_sxw.rml_parse, common_report_header):
             result.append(v)
         return result
     
+    def _results_to_carryforward(self):
+        result = []
+        for k,v in self.gross_profit.items():
+            carry_fwd = v.get('net_profit') - v.get('Profit and Loss Appropriation')
+            v.update({'carry_fwd': carry_fwd})
+            result.append(v)
+        return result
+    
     def _compute_net_assets_liabilities(self):
         result = []
         for k,v in self.gross_profit.items():
-            net_value = v.get('Current Assets') - v.get('Liability')
+            net_value = v.get('Current Assets') - v.get('Current Liability')
             v.update({'net_value': net_value})
             result.append(v)
         return result

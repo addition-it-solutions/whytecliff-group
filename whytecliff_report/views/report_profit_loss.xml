@@ -94,6 +94,14 @@
                                     <span t-if="val.has_key('net_profit')" t-att-style="style" t-esc="formatLang(val.get('net_profit'))"/>
                                 </td>
                             </tr>
+                            <tr></tr>
+                            <tr>
+                                <t t-set="style" t-value="'font-weight: bold; font-color:red;'"/>
+                                <td class="text-right" t-att-style="style">Results to Carry Forward :</td>
+                                <td class="text-right" t-foreach="results_to_carryforward()" t-as="val">
+                                    <span t-if="val.has_key('carry_fwd')" t-att-style="style" t-esc="formatLang(val.get('carry_fwd'))"/>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
